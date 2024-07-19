@@ -1,0 +1,98 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Jack</title>
+    <link rel="stylesheet" href="project.css" />
+</head>
+<body>
+    <h1>Black Jack</h1>
+    <div id="main">
+        <button id="start">Start Game</button>
+    </div>
+     <div id="game">
+        <div id="dealer">
+            <h2>Dealer</h2>
+            <div class="hand" id="dealer-hand"></div>
+            <p>Score: <span id="dealer-score">0</span></p>
+            <button onclick="hit('dealer')">Hit</button>
+            <button onclick="stand('dealer')">Stand</button>
+        </div>
+        <div id="player">
+            <h2>Player</h2>
+            <div class="hand" id="player-hand"></div>
+            <p>Score: <span id="player-score">0</span></p>
+            <button onclick="hit('player')">Hit</button>
+            <button onclick="stand('player')">Stand</button>
+        </div>
+    <script defer src="project.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>capyblackjack</title>
+    <link rel="stylesheet" href="project.css">
+</head>
+<body>
+
+    <div id="container">
+
+<!-- start page -->
+    <div id="start-page">
+        <h1>capy blackjack</h1>
+        <button id="start-game-button">Start Game</button>
+    </div>
+
+<!-- game page -->
+ <div id="game-page"> 
+    <!-- bank + bets -->
+     <div id="bank-display">
+        <div id="bank-coins">
+            <button class="coin" data-value="1">1</button>
+            <button class="coin" data-value="5">5</button>
+            <button class="coin" data-value="10">10</button>
+            <button class="coin" data-value="25">25</button>
+            <button class="coin" data-value="50">50</button>
+            <button class="coin" data-value="100">100</button>
+        </div>
+        <div id="bank-total">Bank: $1000</div>
+     </div>
+
+<!-- bet display -->
+<div id="bet-display">
+    <div id="bet-coins"></div>
+    <div id="bet-total">Bet: $10</div>
+</div>
+
+<!-- card display -->
+ <div id="card-section">
+    <div id="dealer-hand">
+        <div class="card">9</div>
+        <div class="card">5</div>
+    </div>
+    <div id="player-hand">
+        <div class="card">9</div>
+        <div class="card">5</div>
+    </div>
+ </div>
+
+ <!-- buttons -->
+  <div id="buttons">
+    <button id="hit-button">Hit</button>
+    <button id="stand-button">Stand</button>
+    <button id="new-game-button">New Game</button>
+  </div>
+
+  <div id="result" id="result-message"></div>
+
+    <script src="project.js"></script>
+
+    </div>
+
+</body>
+</html>

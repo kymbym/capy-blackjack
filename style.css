@@ -1,0 +1,106 @@
+body {
+    font-family: soft marshmallow;
+    text-align: center;
+    background-color: #95a88c;
+    color: #ecd5cc;
+    font-size: 35px;
+}
+
+.container {
+    display: flex;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+#start-page h1 {
+    /* background: url('') no-repeat center center; */
+    font-size: 60px;
+    margin-bottom: 20px;
+}
+
+/* change cursor type */
+
+#start-page button {
+    padding: 10px 20px;
+    font-size: 25px; 
+    font-family: soft marshmallow;
+}
+
+#game-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#bank-display {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#bet-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.coin {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    background-color: #ecd5cc;
+    border: 1px solid white;
+    border-radius: 50%;
+    font-family: soft marshmallow;
+    color: white;
+}
+
+#bank-total, #bet-total {
+    font-size: 15px;
+    font-family: soft marshmallow;
+    margin-bottom: 10px;
+}
+
+.card {
+    width: 60px;
+    height: 80px;
+    display: inline-block;
+    margin: 5px;
+    background-color: #34495e;
+    border: 1px solid #ecf0f1;
+    border-radius: 5px;
+    line-height: 70px;
+    text-align: flex-end;
+    font-size: 40px;
+}
+
+.button-container {
+    margin: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #687f9a;
+    border: none;
+    border-radius: 5px;
+    color: #ecf0f1;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: soft marshmallow;
+}
+
+button:hover {
+    background-color: #c3d4e4;
+}
+
+.result {
+    font-size: 24px;
+    margin: 20px 0;
+}

@@ -1,42 +1,10 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Jack</title>
-    <link rel="stylesheet" href="project.css" />
-</head>
-<body>
-    <h1>Black Jack</h1>
-    <div id="main">
-        <button id="start">Start Game</button>
-    </div>
-     <div id="game">
-        <div id="dealer">
-            <h2>Dealer</h2>
-            <div class="hand" id="dealer-hand"></div>
-            <p>Score: <span id="dealer-score">0</span></p>
-            <button onclick="hit('dealer')">Hit</button>
-            <button onclick="stand('dealer')">Stand</button>
-        </div>
-        <div id="player">
-            <h2>Player</h2>
-            <div class="hand" id="player-hand"></div>
-            <p>Score: <span id="player-score">0</span></p>
-            <button onclick="hit('player')">Hit</button>
-            <button onclick="stand('player')">Stand</button>
-        </div>
-    <script defer src="project.js"></script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>capyblackjack</title>
-    <link rel="stylesheet" href="project.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -45,7 +13,7 @@
 <!-- start page -->
     <div id="start-page">
         <h1>capy blackjack</h1>
-        <button id="start-game-button">Start Game</button>
+        <button id="start-button">Start Game</button>
     </div>
 
 <!-- game page -->
@@ -53,24 +21,32 @@
     <!-- bank + bets -->
      <div id="bank-display">
         <div id="bank-coins">
-            <button class="coin" data-value="1">1</button>
-            <button class="coin" data-value="5">5</button>
-            <button class="coin" data-value="10">10</button>
-            <button class="coin" data-value="25">25</button>
-            <button class="coin" data-value="50">50</button>
-            <button class="coin" data-value="100">100</button>
+            <button class="bank-coin" data-value="1">1</button>
+            <button class="bank-coin" data-value="5">5</button>
+            <button class="bank-coin" data-value="10">10</button>
+            <button class="bank-coin" data-value="25">25</button>
+            <button class="bank-coin" data-value="50">50</button>
+            <button class="bank-coin" data-value="100">100</button>
         </div>
         <div id="bank-total">Bank: $1000</div>
      </div>
 
 <!-- bet display -->
 <div id="bet-display">
-    <div id="bet-coins"></div>
-    <div id="bet-total">Bet: $10</div>
+    <div id="bet-total"></div>
+</div>
+
+<div id="bet-coins">
+    <button class="bet-coin" data-value="1">1</button>
+    <button class="bet-coin" data-value="5">5</button>
+    <button class="bet-coin" data-value="10">10</button>
+    <button class="bet-coin" data-value="25">25</button>
+    <button class="bet-coin" data-value="50">50</button>
+    <button class="bet-coin" data-value="100">100</button>
 </div>
 
 <!-- card display -->
- <div id="card-section">
+ <div id="card-display">
     <div id="dealer-hand">
         <div class="card">9</div>
         <div class="card">5</div>
@@ -79,6 +55,10 @@
         <div class="card">9</div>
         <div class="card">5</div>
     </div>
+ </div>
+
+ <div id="deal-button">
+    <button>Deal</button>
  </div>
 
  <!-- buttons -->
@@ -90,7 +70,7 @@
 
   <div id="result" id="result-message"></div>
 
-    <script src="project.js"></script>
+    <script src="app.js"></script>
 
     </div>
 

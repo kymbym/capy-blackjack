@@ -1,5 +1,5 @@
 body {
-    font-family: soft marshmallow;
+    font-family: arial;
     text-align: center;
     background-color: #95a88c;
     color: #ecd5cc;
@@ -23,7 +23,7 @@ body {
 #start-page button {
     padding: 10px 20px;
     font-size: 25px; 
-    font-family: soft marshmallow;
+    font-family: arial;
 }
 
 #game-page {
@@ -41,6 +41,11 @@ body {
     align-items: flex-start;
 }
 
+#bet-total {
+    top: 5px; 
+}
+/* need to find a way to not let coin overlap the coin number */
+
 #bet-display {
     position: absolute;
     top: 20px;
@@ -50,20 +55,33 @@ body {
     align-items: flex-start;
 }
 
-.coin {
+.bank-coin {
     width: 50px;
     height: 50px;
     margin: 5px;
     background-color: #ecd5cc;
     border: 1px solid white;
     border-radius: 50%;
-    font-family: soft marshmallow;
+    font-family: arial;
+    color: white;
+    display: flex;
+}
+
+.bet-coin {
+    display: none;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    background-color: #ecd5cc;
+    border: 1px solid white;
+    border-radius: 50%;
+    font-family: arial;
     color: white;
 }
 
 #bank-total, #bet-total {
     font-size: 15px;
-    font-family: soft marshmallow;
+    font-family: arial;
     margin-bottom: 10px;
 }
 
@@ -93,7 +111,7 @@ button {
     color: #ecf0f1;
     font-size: 20px;
     cursor: pointer;
-    font-family: soft marshmallow;
+    font-family: arial;
 }
 
 button:hover {

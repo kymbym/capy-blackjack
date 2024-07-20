@@ -41,13 +41,14 @@ body {
     align-items: flex-start;
 }
 
-#bet-total {
-    top: 5px; 
+#bet-total { 
+    display: flex;
+    align-items: flex-start;
 }
 /* need to find a way to not let coin overlap the coin number */
 
 #bet-display {
-    position: absolute;
+    position: relative;
     top: 20px;
     left: 20px;
     display: flex;

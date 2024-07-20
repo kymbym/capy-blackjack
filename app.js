@@ -1,6 +1,6 @@
 /*-------------------------------- Constants --------------------------------*/
 
-const initialDeck = [
+const cardDeck = [
     "dA",
     "dQ",
     "dK",
@@ -57,11 +57,6 @@ const initialDeck = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-// Declare variables
-let deck1 = [];
-let deck2 = [];
-let cardToRemove;
-
 const game = {
   cards: [],
   player: {
@@ -98,6 +93,9 @@ const startButton = document.getElementById("start-button");
 
 const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
 const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
+
+const playerHandEl = document.querySelector("#player-hand");
+const dealerHandEl = document.querySelector("#dealer-hand");
 
 /*---------------------------- Render Functions -----------------------------*/
 
@@ -184,7 +182,6 @@ const handleBetCoinClick = (event) => {
       if (shownBetCoins[coinValue] === 0) {
         // hides the coin display if no more coin value is left
         event.target.style.display = "none";
-        // console.log(shownBetCoins);
       } else {
         console.log("not enough coins in the bank to place this bet!");
       }
@@ -202,19 +199,58 @@ const getDealButton = () => {
   }
 };
 
-const handleDealButton = (event) => {};
-dealButton.addEventListener("click", () => {
-  deal();
-});
-
-const deal = () => { 
-  // dealing cards
+// searched for the Fisher-Yates shuffle algorithm
+const shuffleDeck = (deck) => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
 }
+
+const dealCard = (handEl, card, faceDown) => {
+  const cardEl = document.createElement("div");
+  cardEl.classList.add("card");
+
+  if (faceDown) {
+    cardEl.classList.add("face-down"); // add a class for the face down cards
+    cardEl.innerText = ""; // hide card value
+    cardEl.style.backgroundColor = "darkblue"; //
+  } else {
+    cardEl.innerText = card; // sets card value
+  }
+
+  handEl.appendChild(cardEl);
+
+  // console.log(`dealt card: ${card}, face down: ${faceDown}`);
+}
+
+const dealCards = () => {
+  const shuffledDeck = shuffleDeck(cardDeck.slice());
+  // console.log(`shuffled deck: ${shuffledDeck}`);
+
+  // deal first card to player
+  dealCard(playerHandEl, shuffledDeck.pop(), false);
+
+  // deal second card to dealer (face down)
+  dealCard(dealerHandEl, shuffledDeck.pop(), true);
+
+  // deal third card to player
+  dealCard(playerHandEl, shuffledDeck.pop(), false);
+
+  // deal fourth card to dealer 
+  dealCard(dealerHandEl, shuffledDeck.pop(), false);
+};
+
+const handleDealButton = () => {
+  dealCards();
+  cardDisplay.style.display = "block";
+  // console.log("deal button clicked");
+};
 
 const handleDealerChoice = () => { // dealer choice
   // dealer's choice
 }
-handleDealerChoice();
 
 const handlePlayerChoice = () => {
   // player's choice
@@ -225,23 +261,20 @@ gamePage.style.display = "none"; // game default page is the start page
 startButton.addEventListener("click", () => {
   // click start button to hide start page and show game page
   startPage.style.display = "none";
-  cardDisplay.style.display = "none";
   buttons.style.display = "none";
   dealButton.style.display = "none";
   betCoins.style.display = "none";
   gamePage.style.display = "block";
 });
 
-bankCoinButton.forEach((button) => {
-    // iterates over each bank coin button
-    button.addEventListener("click", handleBankCoinClick)
-});
+bankCoinButton.forEach((button) => {button.addEventListener("click", handleBankCoinClick)});
+// iterates over each bank coin button
 
-betCoinButton.forEach((button) => {
-  // betCoins.style.display = "block";
-  button.addEventListener("click", handleBetCoinClick)
-});
+betCoinButton.forEach((button) => {button.addEventListener("click", handleBetCoinClick)});
+
+dealButton.addEventListener("click", handleDealButton);
 
 // document.querySelector("#hit-button");
 // document.addEventListener("click", () => 
 // console.log("clicked"));
+

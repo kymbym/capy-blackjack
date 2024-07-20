@@ -103,77 +103,106 @@ const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
 
 const renderBetAmount = () => { // render bet amount on display
   document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`;
+  getDealButton();
 }
 
 const renderBankAmount = () => {
-  document.getElementById("bank-total").innerText = `Bank: ${game.player.bank}`
+  document.getElementById("bank-total").innerText = `Bank: ${game.player.bank}`;
 }
 
 /*-------------------------------- Functions --------------------------------*/
 
-const getBetCoin = (coinValue) => { // 
-  return Array.from(betCoinButton).find((button) => { // converts nodelist to array 
+const updateBankCoinVisibility = () => {
+  const possibleValues = [1, 5, 10, 25, 50, 100];
+  const maxPossibleBet = game.player.bank;
+
+  bankCoinButton.forEach((button) => {
+    const coinValue = parseInt(button.getAttribute("data-value"));
+    if (coinValue <= maxPossibleBet) {
+      button.style.display = "block";
+    } else {
+      button.style.display = "none";
+    }
+  });
+};
+
+const getBetCoin = (coinValue) => {
+  //
+  return Array.from(betCoinButton).find((button) => {
+    // converts nodelist to array
     return parseInt(button.getAttribute("data-value")) === coinValue; // matches coin button who matches the data-value attribute of bet-coin
-  }) // parseInt converts it to an integer
-}
+  }); // parseInt converts it to an integer
+};
 
 const getBetCoinDisplay = () => {
   betCoinButton.forEach((button) => {
     // iterates over each bet coin button
     const coinValue = parseInt(button.getAttribute("data-value")); // retrieves the data-value of the bet-coin button and converts it to integer
     shownBetCoins[coinValue] = 0; // shown bet coins starts at 0
-  }); 
-}
+    button.style.display = "none";
+  });
+};
 getBetCoinDisplay();
 
 const handleBankCoinClick = (event) => {
   const coinValue = parseInt(event.target.getAttribute("data-value"));
-  game.player.bet += coinValue; // adds coin value to player's bet
-  game.player.bank -= coinValue; // removes coin value from player's bank
-  renderBetAmount(); // updates bet display amount using render bet amount function
-  renderBankAmount(); // updates bank display amount using render bank amount function
+  if (game.player.bank >= coinValue) {
+    game.player.bet += coinValue; // adds coin value to player's bet
+    game.player.bank -= coinValue; // removes coin value from player's bank
+    renderBetAmount(); // updates bet display amount using render bet amount function
+    renderBankAmount(); // updates bank display amount using render bank amount function
 
-  if (betCoins.style.display === "none") {
-    // if bet coins are currently hidden, it will be shown after bank coins clicked
-    betCoins.style.display = "block";
+    if (betCoins.style.display === "none") {
+      // if bet coins are currently hidden, it will be shown after bank coins clicked
+      betCoins.style.display = "block";
+    }
   }
 
   const retrieveBetCoinButton = getBetCoin(coinValue); // retrieve bet coin button that matches the value of clicked bank coin button
   if (retrieveBetCoinButton) {
     retrieveBetCoinButton.style.display = "block"; // shows the bet coins
     shownBetCoins[coinValue]++; // increments the counts in the shownbetcoins object
+  } else {
+    console.log("not enough coins in the bank to place this bet!");
   }
+  updateBankCoinVisibility();
+  getDealButton();
 };
 
 const handleBetCoinClick = (event) => {
   const coinValue = parseInt(event.target.getAttribute("data-value"));
-    if (shownBetCoins[coinValue] > 0) { // checks if there are still coins for this value in the bet
-      if (game.player.bet >= coinValue) { // ensure the player has money in bet to remove coin from bet
-        game.player.bet -= coinValue; // subtracts coin from bet
-        game.player.bank += coinValue;
-        renderBetAmount();
-        renderBankAmount();
-        shownBetCoins[coinValue]--; // decreases count of coin value in the shownbetcoins object
+  if (shownBetCoins[coinValue] > 0) {
+    // checks if there are still coins for this value in the bet
+    if (game.player.bet >= coinValue) {
+      // ensure the player has money in bet to remove coin from bet
+      game.player.bet -= coinValue; // subtracts coin from bet
+      game.player.bank += coinValue;
+      renderBetAmount();
+      renderBankAmount();
+      shownBetCoins[coinValue]--; // decreases count of coin value in the shownbetcoins object
 
-        if (shownBetCoins[coinValue] === 0) { // hides the coin display if no more coin value is left
-          event.target.style.display = "none";
-        } 
+      if (shownBetCoins[coinValue] === 0) {
+        // hides the coin display if no more coin value is left
+        event.target.style.display = "none";
+        // console.log(shownBetCoins);
+      } else {
+        console.log("not enough coins in the bank to place this bet!");
       }
-    } 
-}
+      updateBankCoinVisibility();
+      getDealButton();
+    }
+  }
+};
 
-betAmount.style.display = "block"; // bet amount will show up after clicking on coins
-// need to find a way to add coins to the above and to minus the amount accordingly!!!!!!!
-dealButton.style.display = "block";
+const getDealButton = () => {
+  if (game.player.bet > 0) {
+    dealButton.style.display = "block";
+  } else {
+    dealButton.style.display = "none";
+  }
+};
 
-// bankCoinButton.addEventListener("click", () => {
-  // betAmount.style.display = "block"; // bet amount will show up after clicking on coin
-  // dealButton.style.display = "block";
-  // const g = game.currentPlayer;
-//   // game.player[g].bank = calcBank; // create a bank calculator
-//   }
-// )
-
+const handleDealButton = (event) => {};
 dealButton.addEventListener("click", () => {
   deal();
 });

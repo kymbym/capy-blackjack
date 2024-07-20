@@ -22,7 +22,7 @@ body {
 
 #start-page button {
     padding: 10px 20px;
-    font-size: 25px; 
+    font-size: 25px;
     font-family: arial;
 }
 
@@ -41,10 +41,11 @@ body {
     align-items: flex-start;
 }
 
-#bet-total { 
+#bet-total {
     display: flex;
     align-items: flex-start;
 }
+
 /* need to find a way to not let coin overlap the coin number */
 
 #bet-display {
@@ -80,7 +81,8 @@ body {
     color: white;
 }
 
-#bank-total, #bet-total {
+#bank-total,
+#bet-total {
     font-size: 15px;
     font-family: arial;
     margin-bottom: 10px;

@@ -29,6 +29,8 @@ const game = {
   message: "", // place your bets - win $ or dealer win's
 };
 
+const shownBetCoins = {};
+
 /*------------------------ Cached Element References ------------------------*/
 
 const startPage = document.getElementById("start-page");
@@ -40,8 +42,10 @@ const dealButton = document.getElementById("deal-button");
 const cardDisplay = document.getElementById("card-display");
 // const buttons = document.getElementById("buttons");
 
-/*---------------------------- Render Functions -----------------------------*/
+const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
+const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
 
+/*---------------------------- Render Functions -----------------------------*/
 
 
 /*-------------------------------- Functions --------------------------------*/
@@ -105,7 +109,7 @@ const init = {
 }
 
 const startButton = document.getElementById("start-button");
-gamePage.style.display = "none"; // game default is the start page
+gamePage.style.display = "none"; // game default page is the start page
 startButton.addEventListener("click", () => { // click start button to hide start page and show game page
   startPage.style.display = "none";
   cardDisplay.style.display = "none";
@@ -115,48 +119,59 @@ startButton.addEventListener("click", () => { // click start button to hide star
   gamePage.style.display = "block";
 })
 
-const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
-betAmount.style.display = "none";
-dealButton.style.display = "none";
-// betCoins.style.display = "none";
-
-bankCoinButton.forEach(button => {
-  button.addEventListener("click", (event) => {
-    const coinValue = parseInt(event.target.getAttribute("data-value"));
-    game.player.bet += coinValue;
-    document.getElementById("bet-total").innerText = (`Bet: ${game.player.bet}`)
-   
-const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
-// need to do something to reveal the specific coin when clicked
-const getBetCoin = (coinValue) => {
-  return Array.from(betCoinButton).find(button => {
-    return parseInt(button.getAttribute("data-value")) === coinValue;
-  })
+const getBetCoin = (coinValue) => { // 
+  return Array.from(betCoinButton).find((button) => { // converts nodelist to array 
+    return parseInt(button.getAttribute("data-value")) === coinValue; // matches coin button who matches the data-value attribute of bet-coin
+  }) // parseInt converts it to an integer
 }
 
-if (betCoins.style.display === "none") {
+betCoinButton.forEach((button) => { // iterates over each bet coin button
+  const coinValue = parseInt(button.getAttribute("data-value")); // retrieves the data-value of the bet-coin button and converts it to integer
+  shownBetCoins[coinValue] = 0; // shown bet coins starts at 0 
+}) 
+
+bankCoinButton.forEach((button) => { // iterates over each bank coin button
+  button.addEventListener("click", (event) => { 
+    const coinValue = parseInt(event.target.getAttribute("data-value")); 
+    game.player.bet += coinValue; // adds coin value to player's bet
+    document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`; // updates bet display amount
+
+    if (betCoins.style.display === "none") { // if bet coins are currently hidden, it will be shown after bank coins clicked
       betCoins.style.display = "block";
     }
 
-const retrieveBetCoinButton = getBetCoin(coinValue);
-if (retrieveBetCoinButton) {
-  retrieveBetCoinButton.style.display = "block";
-}
+    const retrieveBetCoinButton = getBetCoin(coinValue); // retrieve bet coin button that matches the value of clicked bank coin button
+    if (retrieveBetCoinButton) {
+      retrieveBetCoinButton.style.display = "block"; // shows the bet coins 
+      shownBetCoins[coinValue]++; // increments the counts in the shownbetcoins object 
+    }
+  });
+});
 
-betCoinButton.forEach(button => {
+betCoinButton.forEach((button) => {
   // betCoins.style.display = "block";
   button.addEventListener("click", (event) => {
     const coinValue = parseInt(event.target.getAttribute("data-value"));
-    game.player.bet -= coinValue; // game.player.bet is 0 right now so i need to update it
-    document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`;
+    if (shownBetCoins[coinValue] > 0) { // checks if there are still coins for this value in the bet
+      if (game.player.bet >= coinValue) { // ensure the player has money in bet to remove coin from bet
+        game.player.bet -= coinValue; // subtracts coin from bet
+        document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`;
+        shownBetCoins[coinValue]--; // decreases count of coin value in the shownbetcoins object
+
+        if (shownBetCoins[coinValue] === 0) { // hides the coin display if no more coin value is left
+          event.target.style.display = "none";
+        } 
+      } else {
+        console.log (`cannot remove ${coinValue} from bet, current bet is only ${game.player.bet}`)
+      }
+    } // game.player.bet is 0 right now so i need to update it
   })
 })
-})
 
-  betAmount.style.display = "block"; // bet amount will show up after clicking on coins 
+
+  betAmount.style.display = "block"; // bet amount will show up after clicking on coins
   // need to find a way to add coins to the above and to minus the amount accordingly!!!!!!!
   dealButton.style.display = "block";
-})
 
 // bankCoinButton.addEventListener("click", () => {
   // betAmount.style.display = "block"; // bet amount will show up after clicking on coin

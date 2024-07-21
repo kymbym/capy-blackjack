@@ -110,15 +110,11 @@ const renderBankAmount = () => {
 }
 
 const renderPlayerScore = () => {
-  document.getElementById(
-    "player-score"
-  ).innerText = `Player Score: ${game.player.score}`;
+  document.getElementById("player-score").innerText = `Player Score: ${game.player.score}`;
 };
 
 const renderDealerScore = () => {
-  document.getElementById(
-    "dealer-score"
-  ).innerText = `Dealer Score: ${game.dealer.score}`;
+  document.getElementById("dealer-score").innerText = `Dealer Score: ${game.dealer.score}`;
 };
 
 /*-------------------------------- Functions --------------------------------*/
@@ -249,6 +245,7 @@ const dealCard = (handEl, card, faceDown) => {
   if (faceDown) {
     cardEl.classList.add("face-down"); // add a class for the face down cards
     cardEl.innerText = ""; // hides card value by setting an empty string
+    cardEl.dataset.value = card.value;
     // cardEl.style.backgroundColor = "darkblue"; // 
   } else {
     cardEl.innerText = card; // displays card value of face-up cards
@@ -305,11 +302,13 @@ revealDealerSecondCard(); // reveals dealer's second card automatically if playe
 
 const revealDealerSecondCard = () => {
   const dealerCards = dealerHandEl.querySelectorAll(".card"); // selects all of dealer's cards
-  if (dealerCards.length > 1) { // if there is more than 1 card (aka retrieves the face-down card)
+  if (dealerCards.length > 1) {
+    // if there is more than 1 card (aka retrieves the face-down card)
     // reveal dealer's face down card
-    const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer 
+    const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
     faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
-    faceDownCard.innerText = shuffledDeck.pop(); // updates with actual value 
+    faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
+    // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
     game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
     renderDealerScore();
   }
@@ -324,21 +323,28 @@ const calculateHandScore = (handEl, isDealer = false) => {
     if (!cardEl.classList.contains("face-down") || !isDealer) { // if card is not face-down or not dealer aka if card is face up and player
       const cardValue = cardEl.dataset.value; // retrieves stored card value 
       const value = getCardValue(cardValue); // assigns value to card number
+      console.log(`Card: ${cardValue}, Value: ${value}`);
       score += value; // adds card's value to the total score
       if (cardValue.includes("A")) hasAce = true; // check if card has ace if it does then true then it goes down to if hasAce condition below
     }
   });
 
   /// ace adjustment!!! 21 or 1 depending on hand
-  if (hasAce && score + 10 <= 21) score += 10; // if hasAce which is 1, and + 10 will be <= 21, then we can add 10 to ace and treat it as 11. else ace = 1
-
+  if (hasAce && score + 10 <= 21) {
+    score += 10; // if hasAce which is 1, and + 10 will be <= 21, then we can add 10 to ace and treat it as 11. else ace = 1
+  };
   return score;
 };
 
 const getCardValue = (card) => {
-  if (card.includes("J") || card.includes("Q") || card.includes("K")) return 10; // face card values = 10
-  if (card.includes("A")) return 1; // ace = 1 first and is adjusted when calculating hand score
-  return parseInt(card.slice(1)); // using slice method will extract the numeric part of the card like d9 and 1 is the second index
+  if ((card.includes("J") || card.includes("Q") || card.includes("K"))) {
+    return 10; // face card values = 10
+  } else if ((card.includes("A"))){
+    return 1; // ace = 1 first and is adjusted when calculating hand score
+  } else {
+    value = parseInt(card.slice(1)); // using slice method will extract the numeric part of the card like d09 1 is the second index of 09 
+} 
+  return value;
 };
 
 const handleStandButton = () => {

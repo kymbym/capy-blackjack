@@ -300,20 +300,6 @@ revealDealerSecondCard(); // reveals dealer's second card automatically if playe
 };
 };
 
-const revealDealerSecondCard = () => {
-  const dealerCards = dealerHandEl.querySelectorAll(".card"); // selects all of dealer's cards
-  if (dealerCards.length > 1) {
-    // if there is more than 1 card (aka retrieves the face-down card)
-    // reveal dealer's face down card
-    const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
-    faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
-    faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
-    // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
-    game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
-    renderDealerScore();
-  }
-};
-
 const calculateHandScore = (handEl, isDealer = false) => {
   const cards = handEl.querySelectorAll(".card");
   let score = 0; // score default is 0 
@@ -355,22 +341,51 @@ const handleStandButton = () => {
   dealerTurn(); // dealer's turn 
 };
 
-const dealerTurn = () => {
-  while (game.dealer.score < 17) { // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
-    dealCard(dealerHandEl, shuffledDeck.pop(), false); // deal a new card to dealer 
-    game.dealer.score = calculateHandScore(dealerHandEl); // recalculate dealer's hand score
+const revealDealerSecondCard = () => {
+  const dealerCards = dealerHandEl.querySelectorAll(".card"); // selects all of dealer's cards
+  if (dealerCards.length > 1) {
+    // if there is more than 1 card (aka retrieves the face-down card)
+    // reveal dealer's face down card
+    
+      const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
+      faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
+      faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
+      // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
+      game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
+    
+  
     renderDealerScore();
   }
-  determineWinner(); // after dealer turn over, determine winner
 };
 
+const drawDealerCard = () => {
+  dealCard(dealerHandEl, shuffledDeck.pop(), false); // deal a new card to dealer
+  game.dealer.score = calculateHandScore(dealerHandEl); // recalculate dealer's hand score
+  renderDealerScore();
+};
 
-const determineWinner = () => {
+const dealerTurn = () => {
+  revealDealerSecondCard();
+
+  // if not
+  const dealerDrawCards = () => {
+    if (game.dealer.score < game.player.score && game.dealer.score <= 21) {
+      // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
+      setTimeout(drawDealerCard, 2000); // draw card if conditions met!
+      setTimeout(dealerDrawCards, 4000); // setTimeout() from MDN - waits 3 seconds before drawing next card
+    } else {
+    determineWinner();
+  } // after dealer turn over, determine winner
+}
+dealerDrawCards();
+};
+
+const determineWinner = () => { // messages in console is wrong!!!!!
   if (game.player.isBust) { // player bust
     game.message = "dealer wins";
   } else if (game.dealer.isBust || game.player.score > game.dealer.score) { // dealer bust or game player score higher than dealer
     game.message = "player wins";
-  } else if (game.player.score < game.dealer.score) { // game player score lower than dealer
+  } else if (game.player.score < game.dealer.score && game.dealer.score <= 21) { // game player score lower than dealer
     game.message = "dealer wins";
   } else { // tie
     game.message = "push";

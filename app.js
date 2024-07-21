@@ -89,6 +89,9 @@ const betAmount = document.getElementById("bet-display");
 const dealButton = document.getElementById("deal-button");
 const cardDisplay = document.getElementById("card-display");
 const startButton = document.getElementById("start-button");
+const hitButton = document.getElementById("hit-button");
+const standButton = document.getElementById("stand-button");
+const newGameButton = document.getElementById("new-game-button");
 // const buttons = document.getElementById("buttons");
 
 const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
@@ -108,10 +111,21 @@ const renderBankAmount = () => {
   document.getElementById("bank-total").innerText = `Bank: ${game.player.bank}`;
 }
 
+const renderPlayerScore = () => {
+  document.getElementById(
+    "player-score"
+  ).innerText = `Player Score: ${game.player.score}`;
+};
+
+const renderDealerScore = () => {
+  document.getElementById(
+    "dealer-score"
+  ).innerText = `Dealer Score: ${game.dealer.score}`;
+};
+
 /*-------------------------------- Functions --------------------------------*/
 
 const updateBankCoinVisibility = () => {
-  const possibleValues = [1, 5, 10, 25, 50, 100];
   const maxPossibleBet = game.player.bank;
 
   bankCoinButton.forEach((button) => {
@@ -214,10 +228,18 @@ const dealCard = (handEl, card, faceDown) => {
 
   if (faceDown) {
     cardEl.classList.add("face-down"); // add a class for the face down cards
-    cardEl.innerText = ""; // hide card value
-    cardEl.style.backgroundColor = "darkblue"; //
+    cardEl.innerText = ""; // hides card value
+    // cardEl.style.backgroundColor = "darkblue"; // 
   } else {
-    cardEl.innerText = card; // sets card value
+    cardEl.innerText = card; // displays card value
+  }
+
+  if (handEl === playerHandEl) {
+    game.player.score = calculateHandScore(playerHandEl);
+    renderPlayerScore();
+  } else if (handEl === dealerHandEl) {
+    game.dealer.score = calculateHandScore(dealerHandEl);
+    renderDealerScore();
   }
 
   handEl.appendChild(cardEl);
@@ -225,8 +247,8 @@ const dealCard = (handEl, card, faceDown) => {
   // console.log(`dealt card: ${card}, face down: ${faceDown}`);
 }
 
+const shuffledDeck = shuffleDeck(cardDeck.slice());
 const dealCards = () => {
-  const shuffledDeck = shuffleDeck(cardDeck.slice());
   // console.log(`shuffled deck: ${shuffledDeck}`);
 
   // deal first card to player
@@ -245,23 +267,121 @@ const dealCards = () => {
 const handleDealButton = () => {
   dealCards();
   cardDisplay.style.display = "block";
-  // console.log("deal button clicked");
+  dealButton.style.display = "none";
+  hitButton.style.display = "block";
+  standButton.style.display = "block";
+  newGameButton.style.display = "block";
+
+  // disable bank coins and bet coins after clicking deal button
+  bankCoinButton.forEach(button => {
+    button.removeEventListener("click", handleBankCoinClick);
+    button.disabled = true;
+  });
+
+  betCoinButton.forEach(button => {
+    button.removeEventListener("click", handleBetCoinClick);
+    button.disabled = true;
+  });
 };
 
-const handleDealerChoice = () => { // dealer choice
-  // dealer's choice
+const handleHitButton = () => {
+  if (!game.player.isStanding && !game.player.isBust) {
+    dealCard(playerHandEl, shuffledDeck.pop(), false);
+
+    game.player.score = calculateHandScore(playerHandEl);
+    renderPlayerScore();
+
+    if (game.player.score > 21) { // if player bust
+      game.player.isBust = true;
+      hitButton.style.display = "none";
+      standButton.style.display = "none";
+
+revealDealerSecondCard();
+
+      console.log("bust");
+  }
+}
 }
 
-const handlePlayerChoice = () => {
-  // player's choice
+const handleStandButton = () => {
+  game.player.isStanding = true;
+  hitButton.style.display = "none";
+  standButton.style.display = "none";
+  revealDealerSecondCard();
+  dealerTurn();
 }
+
+const revealDealerSecondCard = () => {
+  const dealerCards = dealerHandEl.querySelectorAll(".card");
+  if (dealerCards.length > 1) {
+    // reveal dealer's face down card
+    const faceDownCard = dealerCards[0];
+    faceDownCard.classList.remove("face-down");
+    faceDownCard.innerText = shuffledDeck.pop(); // updates with actual value
+    game.dealer.score = calculateHandScore(dealerHandEl);
+    renderDealerScore();
+  }
+};
+
+const dealerTurn = () => {
+  while (game.dealer.score < 17) {
+    dealCard(dealerHandEl, shuffledDeck.pop(), false);
+    game.dealer.score = calculateHandScore(dealerHandEl);
+    renderDealerScore();
+  }
+  determineWinner();
+}
+
+const calculateHandScore = (handEl) => {
+  const cards = handEl.querySelectorAll(".card");
+  let score = 0;
+  let hasAce = false;
+
+  cards.forEach(cardEl => {
+    const cardValue = cardEl.innerText;
+    const value = getCardValue(cardValue);
+    score += value;
+    if (cardValue.includes("A")) hasAce = true;
+  });
+
+  /// ace adjustment!!! 21 or 1 depending on hand
+  if (hasAce && score + 10 <= 21) score += 10;
+
+  return score;
+};
+
+const getCardValue = (card) => {
+  if (card.includes("J") || card.includes("Q") || card.includes("K")) return 10;
+  if (card.includes("A")) return 1; // ace is 1 or 11 depending on card hand!!!!
+  return parseInt(card.slice(1)); // using slice method will extract the numeric part of the card like d9 and 1 is the second index
+};
+
+const determineWinner = () => {
+  if (game.player.isBust) {
+    game.message = "dealer wins";
+  } else if (game.dealer.isBust || game.player.score > game.dealer.score) {
+    game.message = "player wins";
+  } else if (game.player.score < game.dealer.score) {
+    game.message = "dealer wins";
+  } else {
+    game.message = "push";
+  }
+  console.log(game.message); 
+};
+
+const handleNewGame = () => {
+  // new game button function
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 gamePage.style.display = "none"; // game default page is the start page
 startButton.addEventListener("click", () => {
   // click start button to hide start page and show game page
   startPage.style.display = "none";
-  buttons.style.display = "none";
+  hitButton.style.display = "none";
+  standButton.style.display = "none";
+  newGameButton.style.display = "none";
   dealButton.style.display = "none";
   betCoins.style.display = "none";
   gamePage.style.display = "block";
@@ -273,6 +393,12 @@ bankCoinButton.forEach((button) => {button.addEventListener("click", handleBankC
 betCoinButton.forEach((button) => {button.addEventListener("click", handleBetCoinClick)});
 
 dealButton.addEventListener("click", handleDealButton);
+
+hitButton.addEventListener("click", handleHitButton);
+
+standButton.addEventListener("click", handleStandButton);
+
+newGameButton.addEventListener("click", handleNewGame);
 
 // document.querySelector("#hit-button");
 // document.addEventListener("click", () => 

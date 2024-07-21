@@ -114,11 +114,6 @@ body {
     opacity: 1;
     transition: transform 0.5s, opacity 0.5s;
 
-/* .card.dealt {
-        transform: translateY(0);
-        opacity: 1;
-    } */
-
 .card.face-down {
     background-color: darkblue;
     color: transparent; /* hide text for face down card */

@@ -464,7 +464,44 @@ const handlePayout = (playerWins) => {
 };
 
 const handleNextRound = () => {
-  
+  game.player.hand = [];
+  game.player.score = 0;
+  game.player.isBust = false;
+  game.player.isStanding = false;
+
+  game.dealer.hand = [];
+  game.dealer.score = 0;
+  game.dealer.isBust = false;
+  game.dealer.isStanding = false;
+
+  playerHandEl.innerHTML = "";
+  dealerHandEl.innerHTML = "";
+
+  cardDisplay.style.display = "none";
+  dealButton.style.display = "none";
+  hitButton.style.display = "none";
+  standButton.style.display = "none";
+  newGameButton.style.display = "none";
+  nextRoundButton.style.display = "none";
+  betCoins.style.display = "none";
+
+  renderBankAmount();
+  renderBetAmount();
+  updateBankCoinVisibility();
+
+  bankCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
+    button.disabled = false;
+  });
+
+  betCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
+    button.disabled = false;
+  });
+
+  const shuffledDeck = shuffleDeck(cardDeck.slice());
+
+  betCoinButton.forEach((button) => (button.style.display = "none"));
 };
 
 const handleNewGame = () => {
@@ -518,7 +555,8 @@ const handleNewGame = () => {
 // new game = reset everything
 // next round = save bank and bet details
 // nextRoundButton.style.display = "block"; // this button should show up only after the cards have been dealt
-// why is deal button showing up randomly after a game has ended? it should only be new game
+// why is deal button showing up randomly after a game has ended? it should only be new game - i think it's fixed
+// if player 2 cards = 21 then dealer does not draw - i think it's fixed
 /*----------------------------- Event Listeners -----------------------------*/
 
 gamePage.style.display = "none"; // game default page is the start page

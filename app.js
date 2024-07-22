@@ -418,7 +418,7 @@ const handlePayout = (playerWins) => { // how do you make this reflect in the do
     game.player.bank += game.player.bet;
   }
   renderBankAmount();
-  renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton();
+  // renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton();
   nextRoundButton.style.display = "block"; // this should show up after payouts are done
 }
 
@@ -428,6 +428,7 @@ const handleNextRound = () => {
 
 const handleNewGame = () => {
   // new game button function
+
   game.player.hand = [];
   game.player.score = 0;
   game.player.isBust = false;
@@ -458,13 +459,23 @@ const handleNewGame = () => {
   bankCoinButton.forEach((button) => {
     button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
     button.disabled = false;
-  });
+  })
 
   betCoinButton.forEach((button) => {
     button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
     button.disabled = false;
-  });
+  })
+
+  const shuffledDeck = shuffleDeck(cardDeck.slice()); 
+
+  betCoinButton.forEach((button) => (button.style.display = "none"));
+
+  startPage.style.display = "block";
+  gamePage.style.display = "none"; // game default page is the start page
+
 };
+
+
 
 // new game = reset everything
 // next round = save bank and bet details

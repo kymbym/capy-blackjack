@@ -1,59 +1,59 @@
 /*-------------------------------- Constants --------------------------------*/
 
 const cardDeck = [
-    "dA",
-    "dQ",
-    "dK",
-    "dJ",
-    "d10",
-    "d09",
-    "d08",
-    "d07",
-    "d06",
-    "d05",
-    "d04",
-    "d03",
-    "d02",
-    "hA",
-    "hQ",
-    "hK",
-    "hJ",
-    "h10",
-    "h09",
-    "h08",
-    "h07",
-    "h06",
-    "h05",
-    "h04",
-    "h03",
-    "h02",
-    "cA",
-    "cQ",
-    "cK",
-    "cJ",
-    "c10",
-    "c09",
-    "c08",
-    "c07",
-    "c06",
-    "c05",
-    "c04",
-    "c03",
-    "c02",
-    "sA",
-    "sQ",
-    "sK",
-    "sJ",
-    "s10",
-    "s09",
-    "s08",
-    "s07",
-    "s06",
-    "s05",
-    "s04",
-    "s03",
-    "s02",
-  ];
+  "dA",
+  "dQ",
+  "dK",
+  "dJ",
+  "d10",
+  "d09",
+  "d08",
+  "d07",
+  "d06",
+  "d05",
+  "d04",
+  "d03",
+  "d02",
+  "hA",
+  "hQ",
+  "hK",
+  "hJ",
+  "h10",
+  "h09",
+  "h08",
+  "h07",
+  "h06",
+  "h05",
+  "h04",
+  "h03",
+  "h02",
+  "cA",
+  "cQ",
+  "cK",
+  "cJ",
+  "c10",
+  "c09",
+  "c08",
+  "c07",
+  "c06",
+  "c05",
+  "c04",
+  "c03",
+  "c02",
+  "sA",
+  "sQ",
+  "sK",
+  "sJ",
+  "s10",
+  "s09",
+  "s08",
+  "s07",
+  "s06",
+  "s05",
+  "s04",
+  "s03",
+  "s02",
+];
 
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -64,7 +64,7 @@ const game = {
     isBust: false, // starts as false in a neutral state to commence the game. if player exceed 21, bust is true
     isStanding: false, // player and computer can make decision to stand or hit. if player or computer stands, stand is true
     bank: 1000,
-    bet: 0, 
+    bet: 0,
   },
   dealer: {
     hand: [],
@@ -101,39 +101,48 @@ const dealerHandEl = document.querySelector("#dealer-hand");
 
 /*---------------------------- Render Functions -----------------------------*/
 
-const renderBetAmount = () => { // render bet amount on display
+const renderBetAmount = () => {
+  // render bet amount on display
   document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`;
   getDealButton();
-}
+};
 
 const renderBankAmount = () => {
   document.getElementById("bank-total").innerText = `Bank: ${game.player.bank}`;
-}
+};
 
 const renderPlayerScore = () => {
-  document.getElementById("player-score").innerText = `Player Score: ${game.player.score}`;
+  document.getElementById(
+    "player-score"
+  ).innerText = `Player Score: ${game.player.score}`;
 };
 
 const renderDealerScore = () => {
-  document.getElementById("dealer-score").innerText = `Dealer Score: ${game.dealer.score}`;
+  document.getElementById(
+    "dealer-score"
+  ).innerText = `Dealer Score: ${game.dealer.score}`;
 };
 
 /*-------------------------------- Functions --------------------------------*/
 
-const updateBankCoinVisibility = () => { // function to update visibility of bank coin buttons from player's bank amount
+const updateBankCoinVisibility = () => {
+  // function to update visibility of bank coin buttons from player's bank amount
   const maxPossibleBet = game.player.bank; // determines how much the player is allowed to bet based on bank amount
 
   bankCoinButton.forEach((button) => {
     const coinValue = parseInt(button.getAttribute("data-value"));
-    if (coinValue <= maxPossibleBet) { // if coinvalue is less or equal to bank amount then show coins
+    if (coinValue <= maxPossibleBet) {
+      // if coinvalue is less or equal to bank amount then show coins
       button.style.display = "block";
-    } else { // but if the coinvalue is more than bank amount then it will hide because not enough money
+    } else {
+      // but if the coinvalue is more than bank amount then it will hide because not enough money
       button.style.display = "none";
     }
   });
 };
 
-const getBetCoin = (coinValue) => { // getbetcoin function retrieves the bet coin button and displays or hides according to player's action
+const getBetCoin = (coinValue) => {
+  // getbetcoin function retrieves the bet coin button and displays or hides according to player's action
   //
   return Array.from(betCoinButton).find((button) => {
     // converts nodelist to array
@@ -141,7 +150,7 @@ const getBetCoin = (coinValue) => { // getbetcoin function retrieves the bet coi
   }); // parseInt converts it to an integer
 };
 
-const getBetCoinDisplay = () => { 
+const getBetCoinDisplay = () => {
   betCoinButton.forEach((button) => {
     // iterates over each bet coin button
     const coinValue = parseInt(button.getAttribute("data-value")); // retrieves the data-value of the bet-coin button and converts it to integer
@@ -151,9 +160,11 @@ const getBetCoinDisplay = () => {
 };
 getBetCoinDisplay(); // init function for bet coin display
 
-const handleBankCoinClick = (event) => { // when player clicks a bank coin button, this is triggered and will update shownbetcoins 
+const handleBankCoinClick = (event) => {
+  // when player clicks a bank coin button, this is triggered and will update shownbetcoins
   const coinValue = parseInt(event.target.getAttribute("data-value"));
-  if (game.player.bank >= coinValue) { // checks if player has sufficient money in bank to place bet 
+  if (game.player.bank >= coinValue) {
+    // checks if player has sufficient money in bank to place bet
     game.player.bet += coinValue; // adds coin value to player's bet
     game.player.bank -= coinValue; // removes coin value from player's bank
     renderBetAmount(); // updates bet display amount using render bet amount function
@@ -162,21 +173,23 @@ const handleBankCoinClick = (event) => { // when player clicks a bank coin butto
     if (betCoins.style.display === "none") {
       // if bet coins clicked are currently hidden, it will be shown after bank coins clicked
       betCoins.style.display = "block";
-    };
-  };
+    }
+  }
 
   const retrieveBetCoinButton = getBetCoin(coinValue); // retrieve bet coin button that matches the value of clicked bank coin button
-  if (retrieveBetCoinButton) { // if button is found
-    retrieveBetCoinButton.style.display = "block"; // shows the bet coins 
+  if (retrieveBetCoinButton) {
+    // if button is found
+    retrieveBetCoinButton.style.display = "block"; // shows the bet coins
     shownBetCoins[coinValue]++; // increments the counts in the shownbetcoins object
   } else {
     // console.log("not enough coins in the bank to place this bet!");
   }
-  updateBankCoinVisibility(); 
+  updateBankCoinVisibility();
   getDealButton();
 };
 
-const handleBetCoinClick = (event) => { // when player clicks a bet coin button, this is triggered 
+const handleBetCoinClick = (event) => {
+  // when player clicks a bet coin button, this is triggered
   const coinValue = parseInt(event.target.getAttribute("data-value"));
   if (shownBetCoins[coinValue] > 0) {
     // checks if there are still coins for this value in the bet displayed
@@ -189,33 +202,35 @@ const handleBetCoinClick = (event) => { // when player clicks a bet coin button,
       shownBetCoins[coinValue]--; // decreases count of coin value in the shownbetcoins object
 
       if (shownBetCoins[coinValue] === 0) {
-        // hides the coin display if no more coin value of the coin is left 
+        // hides the coin display if no more coin value of the coin is left
         event.target.style.display = "none";
       } else {
         // console.log("not enough coins in the bank to place this bet!");
       }
       updateBankCoinVisibility();
       getDealButton();
-    };
-  };
+    }
+  }
 };
 
-const getDealButton = () => { // deal button is displayed if player bet any amount of money (anything > 0)
+const getDealButton = () => {
+  // deal button is displayed if player bet any amount of money (anything > 0)
   if (game.player.bet > 0) {
     dealButton.style.display = "block";
-  } else { // deal button is hidden if no bets placed
+  } else {
+    // deal button is hidden if no bets placed
     dealButton.style.display = "none";
   }
 };
 
-const handleDealButton = () => { // when player clicks deal button, this is triggered
+const handleDealButton = () => {
+  // when player clicks deal button, this is triggered
   dealCards();
   cardDisplay.style.display = "block"; // cards are displayed
   dealButton.style.display = "none"; // deal button is hidden
   hitButton.style.display = "block"; // hit button is displayed
   standButton.style.display = "block"; // stand button is displayed
   newGameButton.style.display = "block"; // new game button is displayed
-
 
   // disable bank coins and bet coins after clicking deal button
   bankCoinButton.forEach((button) => {
@@ -231,7 +246,7 @@ const handleDealButton = () => { // when player clicks deal button, this is trig
 
 // searched for the Fisher-Yates shuffle algorithm as i read that this method of shuffling is more shuffled than simply iterating through 52 cards
 const shuffleDeck = (deck) => {
-  for (let i = deck.length - 1; i > 0; i--) { 
+  for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1)); // generates random index from 0 to i
     [deck[i], deck[j]] = [deck[j], deck[i]]; // swaps card at index i with index j (this method is more thorough)
   }
@@ -248,19 +263,20 @@ const dealCard = (handEl, card, faceDown) => {
   if (faceDown) {
     cardEl.classList.add("face-down"); // add a class for the face down cards
     cardEl.innerText = ""; // hides card value by setting an empty string
-    // cardEl.style.backgroundColor = "darkblue"; // 
+    // cardEl.style.backgroundColor = "darkblue"; //
   } else {
     cardEl.innerText = card; // displays card value of face-up cards
     // cardEl.style.backgroundImage = `url('/Users/kymmyfong/Documents/ga/capy-blackjack/images/cards/${card}.png')`;
   }
 
-  cardEl.dataset.value = card; // stores card value in card attribute 
+  cardEl.dataset.value = card; // stores card value in card attribute
   handEl.appendChild(cardEl); // add card element to player or dealer hand accordingly
 
-  if (handEl === playerHandEl) { // if hand is player's hand
+  if (handEl === playerHandEl) {
+    // if hand is player's hand
     game.player.score = calculateHandScore(playerHandEl); // calculates player's score with updated hand
-    renderPlayerScore(); 
-  } else if (handEl === dealerHandEl) { 
+    renderPlayerScore();
+  } else if (handEl === dealerHandEl) {
     game.dealer.score = calculateHandScore(dealerHandEl, true); // calculates dealer's score of only visible cards
     renderDealerScore();
   }
@@ -286,34 +302,37 @@ const dealCards = () => {
 };
 
 const handleHitButton = () => {
-  if (!game.player.isStanding && !game.player.isBust) { // if player is not standing and not bust aka player hits
+  if (!game.player.isStanding && !game.player.isBust) {
+    // if player is not standing and not bust aka player hits
     dealCard(playerHandEl, shuffledDeck.pop(), false); // deals new card to the player's hand from shuffledDeck
 
     game.player.score = calculateHandScore(playerHandEl); // recalculates player total score with addition of card(s)
     renderPlayerScore();
-    console.log(game.player.score)
+    console.log(game.player.score);
 
-    if (game.player.score > 21) { // if player bust > 21 
+    if (game.player.score > 21) {
+      // if player bust > 21
       game.player.isBust = true; // isbust is set to true
       hitButton.style.display = "none"; // hides hit button
       standButton.style.display = "none"; // hides stand button
 
-determineWinner();
-revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
+      determineWinner();
+      revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
 
       // console.log("bust");
+    }
   }
-};
 };
 
 const calculateHandScore = (handEl, isDealer = false) => {
   const cards = handEl.querySelectorAll(".card");
-  let score = 0; // score default is 0 
+  let score = 0; // score default is 0
   let hasAce = false; // tracks if card hasAce. true = hasAce
 
   cards.forEach((cardEl) => {
-    if (!cardEl.classList.contains("face-down") || !isDealer) { // if card is not face-down or not dealer aka if card is face up and player
-      const cardValue = cardEl.dataset.value; // retrieves stored card value 
+    if (!cardEl.classList.contains("face-down") || !isDealer) {
+      // if card is not face-down or not dealer aka if card is face up and player
+      const cardValue = cardEl.dataset.value; // retrieves stored card value
       const value = getCardValue(cardValue); // assigns value to card number
       console.log(`Card: ${cardValue}, Value: ${value}`);
       score += value; // adds card's value to the total score
@@ -324,18 +343,18 @@ const calculateHandScore = (handEl, isDealer = false) => {
   /// ace adjustment!!! 21 or 1 depending on hand
   if (hasAce && score + 10 <= 21) {
     score += 10; // if hasAce which is 1, and + 10 will be <= 21, then we can add 10 to ace and treat it as 11. else ace = 1
-  };
+  }
   return score;
 };
 
 const getCardValue = (card) => {
-  if ((card.includes("J") || card.includes("Q") || card.includes("K"))) {
+  if (card.includes("J") || card.includes("Q") || card.includes("K")) {
     return 10; // face card values = 10
-  } else if ((card.includes("A"))){
+  } else if (card.includes("A")) {
     return 1; // ace = 1 first and is adjusted when calculating hand score
   } else {
-    value = parseInt(card.slice(1)); // using slice method will extract the numeric part of the card like d09 1 is the second index of 09 
-} 
+    value = parseInt(card.slice(1)); // using slice method will extract the numeric part of the card like d09 1 is the second index of 09
+  }
   return value;
 };
 
@@ -345,7 +364,7 @@ const handleStandButton = () => {
   standButton.style.display = "none"; // hide stand button after clicking stand button
   // dealButton.style.display = "none";
   revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
-  dealerTurn(); // dealer's turn 
+  dealerTurn(); // dealer's turn
 };
 
 const revealDealerSecondCard = () => {
@@ -353,13 +372,13 @@ const revealDealerSecondCard = () => {
   if (dealerCards.length > 1) {
     // if there is more than 1 card (aka retrieves the face-down card)
     // reveal dealer's face down card
-    
-      const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
-      faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
-      faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
-      // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
-      game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
-    
+
+    const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
+    faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
+    faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
+    // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
+    game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
+
     renderDealerScore();
   }
 };
@@ -375,44 +394,57 @@ const dealerTurn = () => {
 
   // if not
   const dealerDrawCards = () => {
-    if (game.dealer.score < game.player.score && game.dealer.score <= 21) {
+
+  const initialPlayerHand = Array.from(playerHandEl.querySelectorAll(".card"));
+  const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
+  console.log(initialPlayerScore)
+
+    if (game.dealer.score < game.player.score && game.dealer.score <= 21 && initialPlayerScore != 21) { // if initial player score is 21, do not draw and player wins
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
       setTimeout(drawDealerCard, 2000); // draw card if conditions met!
       setTimeout(dealerDrawCards, 4000); // setTimeout() from MDN - waits 3 seconds before drawing next card
+    } else if (initialPlayerScore === 21) {
+      determineWinner(); // if initial hand of player === 21 then dealer should not draw
     } else {
-    determineWinner();
-  } // after dealer turn over, determine winner
-}
-dealerDrawCards();
+      determineWinner();
+    } // after dealer turn over, determine winner
+  };
+  dealerDrawCards();
 };
 
-const determineWinner = () => { 
+const determineWinner = () => {
   game.player.isBust = game.player.score > 21;
   game.dealer.isBust = game.dealer.score > 21;
 
-  if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21 )) { // only the part where player.isbust is not working!
+  if (
+    game.player.isBust ||
+    (game.player.score < game.dealer.score && game.dealer.score <= 21)
+  ) {
+    // only the part where player.isbust is not working! - should be working now
     console.log(game.player.score);
-    console.log(game.dealer.score) 
-    console.log("dealer wins"); 
+    console.log(game.dealer.score);
+    console.log("dealer wins");
     handlePayout(false);
-  } else if (game.dealer.isBust || (game.player.score > game.dealer.score && game.player.score <= 21)) { // dealer bust or game player score higher than dealer
+  } else if (
+    game.dealer.isBust ||
+    (game.player.score > game.dealer.score && game.player.score <= 21)
+  ) {
+    // dealer bust or game player score higher than dealer
     console.log("player wins");
     handlePayout(true);
-  } else { // tie
+  } else {
+    // tie
     console.log("push");
     handlePayout(null);
   }
-  // console.log(game.message); 
+  // console.log(game.message);
   // nextRoundButton.style.display = "block"; ??????????????
 };
 
 const handlePayout = (playerWins) => {
   if (playerWins === true) {
-    const initialPlayerHand = Array.from(
-      playerHandEl.querySelectorAll(".card")
-    );
-    const initialPlayerScore =
-      initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
+    const initialPlayerHand = Array.from(playerHandEl.querySelectorAll(".card"));
+    const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
     if (initialPlayerScore === 21) {
       game.player.bank += game.player.bet * 2.5; // or 3.5?
       game.player.bet -= game.player.bet;
@@ -432,16 +464,8 @@ const handlePayout = (playerWins) => {
 };
 
 const handleNextRound = () => {
-  bankCoinButton.forEach((button) => {
-    button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
-    button.disabled = false;
-  });
-
-  betCoinButton.forEach((button) => {
-    button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
-    button.disabled = false;
-  });
-}
+  
+};
 
 const handleNewGame = () => {
   // new game button function
@@ -452,7 +476,7 @@ const handleNewGame = () => {
   game.player.isStanding = false;
   game.player.bank = 1000;
   game.player.bet = 0;
-  
+
   game.dealer.hand = [];
   game.dealer.score = 0;
   game.dealer.isBust = false;
@@ -476,22 +500,20 @@ const handleNewGame = () => {
   bankCoinButton.forEach((button) => {
     button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
     button.disabled = false;
-  })
+  });
 
   betCoinButton.forEach((button) => {
     button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
     button.disabled = false;
-  })
+  });
 
-  const shuffledDeck = shuffleDeck(cardDeck.slice()); 
+  const shuffledDeck = shuffleDeck(cardDeck.slice());
 
   betCoinButton.forEach((button) => (button.style.display = "none"));
 
   startPage.style.display = "block";
   gamePage.style.display = "none"; // game default page is the start page
 };
-
-
 
 // new game = reset everything
 // next round = save bank and bet details
@@ -512,10 +534,14 @@ startButton.addEventListener("click", () => {
   gamePage.style.display = "block";
 });
 
-bankCoinButton.forEach((button) => {button.addEventListener("click", handleBankCoinClick)});
+bankCoinButton.forEach((button) => {
+  button.addEventListener("click", handleBankCoinClick);
+});
 // iterates over each bank coin button
 
-betCoinButton.forEach((button) => {button.addEventListener("click", handleBetCoinClick)});
+betCoinButton.forEach((button) => {
+  button.addEventListener("click", handleBetCoinClick);
+});
 
 dealButton.addEventListener("click", handleDealButton);
 
@@ -528,6 +554,5 @@ newGameButton.addEventListener("click", handleNewGame);
 nextRoundButton.addEventListener("click", handleNextRound);
 
 // document.querySelector("#hit-button");
-// document.addEventListener("click", () => 
+// document.addEventListener("click", () =>
 // console.log("clicked"));
-

@@ -90,6 +90,7 @@ const startButton = document.getElementById("start-button");
 const hitButton = document.getElementById("hit-button");
 const standButton = document.getElementById("stand-button");
 const newGameButton = document.getElementById("new-game-button");
+const nextRoundButton = document.getElementById("next-round-button");
 // const buttons = document.getElementById("buttons");
 
 const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
@@ -215,6 +216,7 @@ const handleDealButton = () => { // when player clicks deal button, this is trig
   standButton.style.display = "block"; // stand button is displayed
   newGameButton.style.display = "block"; // new game button is displayed
 
+
   // disable bank coins and bet coins after clicking deal button
   bankCoinButton.forEach((button) => {
     button.removeEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
@@ -295,7 +297,7 @@ const handleHitButton = () => {
 
 revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
 
-      console.log("bust");
+      // console.log("bust");
   }
 };
 };
@@ -369,7 +371,7 @@ const dealerTurn = () => {
 
   // if not
   const dealerDrawCards = () => {
-    if (game.dealer.score < game.player.score && game.dealer.score <= 21) {
+    if (game.dealer.score <= game.player.score && game.dealer.score <= 21) {
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
       setTimeout(drawDealerCard, 2000); // draw card if conditions met!
       setTimeout(dealerDrawCards, 4000); // setTimeout() from MDN - waits 3 seconds before drawing next card
@@ -380,23 +382,52 @@ const dealerTurn = () => {
 dealerDrawCards();
 };
 
-const determineWinner = () => { // messages in console is wrong!!!!!
-  if (game.player.isBust) { // player bust
-    game.message = "dealer wins";
-  } else if (game.dealer.isBust || game.player.score > game.dealer.score) { // dealer bust or game player score higher than dealer
-    game.message = "player wins";
-  } else if (game.player.score < game.dealer.score && game.dealer.score <= 21) { // game player score lower than dealer
-    game.message = "dealer wins";
+const determineWinner = () => { 
+  game.player.isBust = game.player.score > 21;
+  game.dealer.isBust = game.dealer.score > 21;
+
+  if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21 )) { // only the part where player.isbust is not working!
+    console.log("dealer wins"); 
+    handlePayout(false);
+  } else if (game.dealer.isBust || (game.player.score > game.dealer.score && game.player.score <= 21)) { // dealer bust or game player score higher than dealer
+    console.log("player wins");
+    handlePayout(true);
   } else { // tie
-    game.message = "push";
+    console.log("push");
+    handlePayout(null);
   }
-  console.log(game.message); 
+  // console.log(game.message); 
 };
+
+const handlePayout = (playerWins) => { // how do you make this reflect in the dom?
+  if (playerWins === true) {
+    const initialPlayerHand = Array.from(playerHandEl.querySelectorAll(".card"));
+    const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
+    if (initialPlayerScore === 21) {
+      game.player.bank += game.player.bet * 2.5;
+    } else {
+      game.player.bank += game.player.bet *2;
+    } 
+  } else if (playerWins === false) {
+    return;
+  } else {
+    game.player.bank += game.player.bet;
+  }
+  renderBankAmount();
+  renderBetAmount();
+}
 
 const handleNewGame = () => {
   // new game button function
+  
+  console.log(game.player.bet)
 };
 
+
+
+// new game = reset everything
+// next round = save bank and bet details
+// nextRoundButton.style.display = "block"; // this button should show up only after the cards have been dealt
 /*----------------------------- Event Listeners -----------------------------*/
 
 gamePage.style.display = "none"; // game default page is the start page
@@ -408,6 +439,7 @@ startButton.addEventListener("click", () => {
   newGameButton.style.display = "none";
   dealButton.style.display = "none";
   betCoins.style.display = "none";
+  nextRoundButton.style.display = "none";
   gamePage.style.display = "block";
 });
 
@@ -423,6 +455,8 @@ hitButton.addEventListener("click", handleHitButton);
 standButton.addEventListener("click", handleStandButton);
 
 newGameButton.addEventListener("click", handleNewGame);
+
+
 
 // document.querySelector("#hit-button");
 // document.addEventListener("click", () => 

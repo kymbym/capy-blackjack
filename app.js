@@ -240,6 +240,7 @@ const shuffleDeck = (deck) => {
 
 const shuffledDeck = shuffleDeck(cardDeck.slice()); // stores a shuffled deck of cards into shuffledDeck
 
+// deal card if hit
 const dealCard = (handEl, card, faceDown) => {
   const cardEl = document.createElement("div");
   cardEl.classList.add("card"); // stores card value in data attribute html
@@ -266,6 +267,7 @@ const dealCard = (handEl, card, faceDown) => {
   // console.log(`dealt card: ${card}, face down: ${faceDown}`);
 };
 
+// deal initial cards
 const dealCards = () => {
   // console.log(`shuffled deck: ${shuffledDeck}`);
 
@@ -339,6 +341,7 @@ const handleStandButton = () => {
   game.player.isStanding = true; // player chooses stands
   hitButton.style.display = "none"; // hide hit button
   standButton.style.display = "none"; // hide stand button after clicking stand button
+  // dealButton.style.display = "none";
   revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
   dealerTurn(); // dealer's turn 
 };
@@ -371,7 +374,7 @@ const dealerTurn = () => {
 
   // if not
   const dealerDrawCards = () => {
-    if (game.dealer.score <= game.player.score && game.dealer.score <= 21) {
+    if (game.dealer.score < game.player.score && game.dealer.score <= 21) {
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
       setTimeout(drawDealerCard, 2000); // draw card if conditions met!
       setTimeout(dealerDrawCards, 4000); // setTimeout() from MDN - waits 3 seconds before drawing next card
@@ -397,6 +400,7 @@ const determineWinner = () => {
     handlePayout(null);
   }
   // console.log(game.message); 
+  // nextRoundButton.style.display = "block"; ??????????????
 };
 
 const handlePayout = (playerWins) => { // how do you make this reflect in the dom?
@@ -414,20 +418,58 @@ const handlePayout = (playerWins) => { // how do you make this reflect in the do
     game.player.bank += game.player.bet;
   }
   renderBankAmount();
-  renderBetAmount();
+  renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton();
+  nextRoundButton.style.display = "block"; // this should show up after payouts are done
+}
+
+const handleNextRound = () => {
+  
 }
 
 const handleNewGame = () => {
   // new game button function
+  game.player.hand = [];
+  game.player.score = 0;
+  game.player.isBust = false;
+  game.player.isStanding = false;
+  game.player.bank = 1000;
+  game.player.bet = 0;
   
-  console.log(game.player.bet)
+  game.dealer.hand = [];
+  game.dealer.score = 0;
+  game.dealer.isBust = false;
+  game.dealer.isStanding = false;
+
+  playerHandEl.innerHTML = "";
+  dealerHandEl.innerHTML = "";
+
+  cardDisplay.style.display = "none";
+  dealButton.style.display = "none";
+  hitButton.style.display = "none";
+  standButton.style.display = "none";
+  newGameButton.style.display = "none";
+  nextRoundButton.style.display = "none";
+  betCoins.style.display = "none";
+
+  renderBankAmount();
+  renderBetAmount();
+  updateBankCoinVisibility();
+
+  bankCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
+    button.disabled = false;
+  });
+
+  betCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
+    button.disabled = false;
+  });
 };
-
-
 
 // new game = reset everything
 // next round = save bank and bet details
 // nextRoundButton.style.display = "block"; // this button should show up only after the cards have been dealt
+// why is deal button showing up randomly after a game has ended? it should only be new game
 /*----------------------------- Event Listeners -----------------------------*/
 
 gamePage.style.display = "none"; // game default page is the start page
@@ -455,6 +497,8 @@ hitButton.addEventListener("click", handleHitButton);
 standButton.addEventListener("click", handleStandButton);
 
 newGameButton.addEventListener("click", handleNewGame);
+
+nextRoundButton.addEventListener("click", handleNextRound);
 
 
 

@@ -112,16 +112,13 @@ const renderBankAmount = () => {
 };
 
 const renderPlayerScore = () => {
-  document.getElementById(
-    "player-score"
-  ).innerText = `Player Score: ${game.player.score}`;
+  document.getElementById("player-score").innerText = `Player Score: ${game.player.score}`;
 };
 
 const renderDealerScore = () => {
-  document.getElementById(
-    "dealer-score"
-  ).innerText = `Dealer Score: ${game.dealer.score}`;
+  document.getElementById("dealer-score").innerText = `Dealer Score: ${game.dealer.score}`;
 };
+
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -552,9 +549,8 @@ const handleNewGame = () => {
   gamePage.style.display = "none"; // game default page is the start page
 };
 
-// new game = reset everything
-// next round = save bank and bet details
-// nextRoundButton.style.display = "block"; // this button should show up only after the cards have been dealt
+// new game = reset everything - should be working
+// next round = save bank and bet details - should be working
 // why is deal button showing up randomly after a game has ended? it should only be new game - i think it's fixed
 // if player 2 cards = 21 then dealer does not draw - i think it's fixed
 /*----------------------------- Event Listeners -----------------------------*/
@@ -591,6 +587,5 @@ newGameButton.addEventListener("click", handleNewGame);
 
 nextRoundButton.addEventListener("click", handleNextRound);
 
-// document.querySelector("#hit-button");
-// document.addEventListener("click", () =>
-// console.log("clicked"));
+// need to add something that if no more money in bank, then the next round button is no longer available!
+// dealer's turn and player's turn indication

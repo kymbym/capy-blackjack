@@ -1,41 +1,22 @@
 body {
-    font-family: arial;
+    font-family: courier;
     text-align: center;
-    background-color: #95a88c;
-    color: #ecd5cc;
-    font-size: 35px;
-}
-
-.container {
-    display: flex;
-    margin: 20px auto;
-    max-width: 600px;
+    background-color: gray;
+    color: white;
 }
 
 #start-page h1 {
-    /* background: url('') no-repeat center center; */
-    font-size: 60px;
-    margin-bottom: 20px;
+    font-size: 50px;
 }
 
-/* change cursor type */
-
 #start-page button {
-    padding: 10px 20px;
-    font-size: 25px;
-    font-family: arial;
+    padding: 5px 10px;
+    font-size: 15px;
+    font-family: courier;
 }
 
 #game-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-#card-display {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    font-size: 10px;
 }
 
 #bank-display {
@@ -44,103 +25,121 @@ body {
     left: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
-#bet-total {
+.bank-coin {
+    font-family: courier;
+    font-size: 20px;
+    position: static;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px white;
 }
 
-/* need to find a way to not let coin overlap the coin number */
+#bank-total {
+    font-family: courier;
+    font-size: 20px;
+}
 
 #bet-display {
-    position: relative;
+    position: absolute;
     top: 20px;
     left: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-}
-
-.bank-coin {
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-    background-color: #ecd5cc;
-    border: 1px solid white;
-    border-radius: 50%;
-    font-family: arial;
-    color: white;
-    display: flex;
-}
-
-#dealer-hand, #player-hand {
-    display: flex;
-    justify-content: center;
-    margin: 10px;
 }
 
 .bet-coin {
-    display: none;
+    font-family: courier;
+    font-size: 20px;
+    position: static;
+    display: flex;
+    flex-direction: column;
     width: 50px;
     height: 50px;
-    margin: 5px;
-    background-color: #ecd5cc;
-    border: 1px solid white;
+    margin: 10px;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
-    font-family: arial;
-    color: white;
+    border: 1px white;
 }
 
-/* #bank-total, #bet-total {
-    font-size: 15px;
-    font-family: arial;
-    margin-bottom: 10px;
-} */
+#bet-total {
+    font-family: courier;
+    font-size: 20px;
+}
+
+#card-display {
+    display: flex;
+    position: static;
+    justify-content: center;
+    align-items: center;
+}
 
 .card {
     width: 60px;
     height: 80px;
     display: inline-block;
-    margin: 5px;
-    background-color: lightcoral;
+    background-color: lightpink;
     border: 1px solid white;
     border-radius: 5px;
     line-height: 80px;
+    margin: 5px;
     text-align: center;
     font-size: 40px;
     color: white;
     opacity: 1;
     transition: transform 0.5s, opacity 0.5s;
+}
 
 .card.face-down {
-    background-color: darkblue;
-    color: transparent; /* hide text for face down card */
+    background-color: lightblue;
+    color: transparent;
 }
 
-
-.button-container {
-    margin: 20px;
+#dealer-hand, #player-hand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-button {
-    padding: 10px 20px;
-    margin: 5px;
-    background-color: #687f9a;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 20px;
-    font-family: arial;
+#deal-button-display {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+#deal-button {
+    padding: 5px 10px;
+    font-size: 15px;
+    font-family: courier;
+}
+
+#hit-button, #stand-button, #new-game-button, #next-round-button {
+    padding: 5px 10px;
+    font-size: 15px;
+    font-family: courier;
 }
 
 button:hover {
-    background-color: #c3d4e4;
+    background-color: lightblue;
 }
 
 .result {
     font-size: 24px;
     margin: 20px 0;
-}}
+}
 
+#dealer-hand, #player-hand {
+    font-family: courier;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}

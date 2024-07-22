@@ -248,10 +248,10 @@ const dealCard = (handEl, card, faceDown) => {
   if (faceDown) {
     cardEl.classList.add("face-down"); // add a class for the face down cards
     cardEl.innerText = ""; // hides card value by setting an empty string
-    cardEl.dataset.value = card.value;
     // cardEl.style.backgroundColor = "darkblue"; // 
   } else {
     cardEl.innerText = card; // displays card value of face-up cards
+    // cardEl.style.backgroundImage = `url('/Users/kymmyfong/Documents/ga/capy-blackjack/images/cards/${card}.png')`;
   }
 
   cardEl.dataset.value = card; // stores card value in card attribute 

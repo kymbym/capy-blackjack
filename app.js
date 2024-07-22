@@ -291,12 +291,14 @@ const handleHitButton = () => {
 
     game.player.score = calculateHandScore(playerHandEl); // recalculates player total score with addition of card(s)
     renderPlayerScore();
+    console.log(game.player.score)
 
     if (game.player.score > 21) { // if player bust > 21 
       game.player.isBust = true; // isbust is set to true
       hitButton.style.display = "none"; // hides hit button
       standButton.style.display = "none"; // hides stand button
 
+determineWinner();
 revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
 
       // console.log("bust");
@@ -358,7 +360,6 @@ const revealDealerSecondCard = () => {
       // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
       game.dealer.score = calculateHandScore(dealerHandEl, false); // recalculate score with all of dealer's cards now
     
-  
     renderDealerScore();
   }
 };
@@ -390,6 +391,8 @@ const determineWinner = () => {
   game.dealer.isBust = game.dealer.score > 21;
 
   if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21 )) { // only the part where player.isbust is not working!
+    console.log(game.player.score);
+    console.log(game.dealer.score) 
     console.log("dealer wins"); 
     handlePayout(false);
   } else if (game.dealer.isBust || (game.player.score > game.dealer.score && game.player.score <= 21)) { // dealer bust or game player score higher than dealer
@@ -429,7 +432,15 @@ const handlePayout = (playerWins) => {
 };
 
 const handleNextRound = () => {
-  
+  bankCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBankCoinClick); // because we have dealt the cards, bank coin buttons should not be working
+    button.disabled = false;
+  });
+
+  betCoinButton.forEach((button) => {
+    button.addEventListener("click", handleBetCoinClick); // same with bet coin buttons! players are not allowed to edit bettings in game
+    button.disabled = false;
+  });
 }
 
 const handleNewGame = () => {
@@ -515,8 +526,6 @@ standButton.addEventListener("click", handleStandButton);
 newGameButton.addEventListener("click", handleNewGame);
 
 nextRoundButton.addEventListener("click", handleNextRound);
-
-
 
 // document.querySelector("#hit-button");
 // document.addEventListener("click", () => 

@@ -403,24 +403,30 @@ const determineWinner = () => {
   // nextRoundButton.style.display = "block"; ??????????????
 };
 
-const handlePayout = (playerWins) => { // how do you make this reflect in the dom?
+const handlePayout = (playerWins) => {
   if (playerWins === true) {
-    const initialPlayerHand = Array.from(playerHandEl.querySelectorAll(".card"));
-    const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
+    const initialPlayerHand = Array.from(
+      playerHandEl.querySelectorAll(".card")
+    );
+    const initialPlayerScore =
+      initialPlayerHand.length === 2 && calculateHandScore(playerHandEl, false);
     if (initialPlayerScore === 21) {
-      game.player.bank += game.player.bet * 2.5;
+      game.player.bank += game.player.bet * 2.5; // or 3.5?
+      game.player.bet -= game.player.bet;
     } else {
-      game.player.bank += game.player.bet *2;
-    } 
+      game.player.bank += game.player.bet * 2;
+      game.player.bet -= game.player.bet;
+    }
   } else if (playerWins === false) {
-    return;
+    game.player.bet -= game.player.bet;
   } else {
     game.player.bank += game.player.bet;
+    game.player.bet -= game.player.bet;
   }
   renderBankAmount();
-  // renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton();
+  renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton(); hm but it's not showing up now
   nextRoundButton.style.display = "block"; // this should show up after payouts are done
-}
+};
 
 const handleNextRound = () => {
   
@@ -472,7 +478,6 @@ const handleNewGame = () => {
 
   startPage.style.display = "block";
   gamePage.style.display = "none"; // game default page is the start page
-
 };
 
 

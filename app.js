@@ -75,8 +75,6 @@ const renderDealerScore = () => {
   document.getElementById("dealer-score").innerText = `Dealer Score: ${game.dealer.score}`;
 };
 
-// const shuffledDeck = shuffleDeck(cardDeck.slice()); // stores a shuffled deck of cards into shuffledDeck
-
 /*-------------------------------- Functions --------------------------------*/
 
 const updateBankCoinVisibility = () => {
@@ -218,7 +216,7 @@ const dealCard = (handElement, card, faceDown) => {
 
   if (faceDown) {
     cardElement.classList.add("face-down"); // add a class for the face down cards
-    cardElement.innerText = ""; // hides card value by setting an empty string
+    cardElement.innerText = ""; 
     // cardElement.style.backgroundColor = "darkblue"; //
   } else {
     cardElement.innerText = card; // displays card value of face-up cards
@@ -233,7 +231,7 @@ const dealCard = (handElement, card, faceDown) => {
     game.player.score = calculateHandScore(playerHand); // calculates player's score with updated hand
     renderPlayerScore();
   } else if (handElement === dealerHand) {
-    game.dealer.score = calculateHandScore(dealerHand, true); // calculates dealer's score of only visible cards
+    game.dealer.score = calculateHandScore(dealerHand, true);
     renderDealerScore();
   }
   // console.log(`dealt card: ${card}, face down: ${faceDown}`);
@@ -425,7 +423,7 @@ const handleNextRound = () => {
   updateBankCoinVisibility();
   enableBankCoinButtons();
   enableBetCoinButtons();
-  shuffledDeck = shuffleDeck(cardDeck.slice());
+  shuffledDeck
 };
 
 const handleNewGame = () => {
@@ -439,7 +437,7 @@ const handleNewGame = () => {
   enableBetCoinButtons();
   game.player.bank = 1000;
   game.player.bet = 0;
-  shuffledDeck = shuffleDeck(cardDeck.slice());
+  shuffledDeck
 
   startPage.style.display = "block";
   gamePage.style.display = "none"; // game default page is the start page
@@ -552,3 +550,9 @@ const disableBetCoinButtons = () => {
 const displayRoundResult = () => {
   roundResult.showModal();
 }
+
+// losing screen -> lose all money -> LOST -> new game button
+// new game button bring back to the money betting screen
+// dialog win $ / lose $
+// winning screen -> 
+// split pair

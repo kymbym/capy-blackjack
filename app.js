@@ -54,6 +54,7 @@ const dealerHand = document.querySelector("#dealer-hand");
 const betPrompt = document.getElementById("bet-prompt");
 const roundResult = document.getElementById("round-result");
 const resultMessage = document.getElementById("result-message");
+const closeResult = document.getElementById("close-result");
 
 /*---------------------------- Render Functions -----------------------------*/
 
@@ -192,6 +193,7 @@ const handleDealButton = () => {
   hitButton.style.display = "block"; // hit button is displayed
   standButton.style.display = "block"; // stand button is displayed
   newGameButton.style.display = "block"; // new game button is displayed
+  betPrompt.style.display = "none";
 
   // disable bank coins and bet coins after clicking deal button
  disableBankCoinButtons();
@@ -207,7 +209,7 @@ const shuffleDeck = (deck) => {
   return deck;
 };
 
-const shuffledDeck = shuffleDeck(cardDeck.slice()); // stores a shuffled deck of cards into shuffledDeck
+let shuffledDeck = shuffleDeck(cardDeck.slice()); // stores a shuffled deck of cards into shuffledDeck
 
 // deal card if hit
 const dealCard = (handElement, card, faceDown) => {
@@ -370,19 +372,13 @@ const determineWinner = () => {
   game.player.isBust = game.player.score > 21;
   game.dealer.isBust = game.dealer.score > 21;
 
-  if (
-    game.player.isBust ||
-    (game.player.score < game.dealer.score && game.dealer.score <= 21)
-  ) {
+  if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21)) {
     // only the part where player.isbust is not working! - should be working now
     console.log(game.player.score);
     console.log(game.dealer.score);
     console.log("dealer wins");
     handlePayout(false);
-  } else if (
-    game.dealer.isBust ||
-    (game.player.score > game.dealer.score && game.player.score <= 21)
-  ) {
+  } else if (game.dealer.isBust || (game.player.score > game.dealer.score && game.player.score <= 21)) {
     // dealer bust or game player score higher than dealer
     console.log("player wins");
     handlePayout(true);
@@ -398,15 +394,19 @@ const handlePayout = (playerWins) => {
     const initialPlayerHand = Array.from(playerHand.querySelectorAll(".card"));
     const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
     if (initialPlayerScore === 21) {
+      displayRoundResult(game.player.bet * 2.5, true);
       game.player.bank += game.player.bet * 2.5; 
       game.player.bet -= game.player.bet;
     } else {
+      displayRoundResult(game.player.bet * 2, true);
       game.player.bank += game.player.bet * 2;
       game.player.bet -= game.player.bet;
     }
   } else if (playerWins === false) {
+    displayRoundResult(game.player.bet, false);
     game.player.bet -= game.player.bet;
   } else {
+    displayRoundResult(game.player.bet, false);
     game.player.bank += game.player.bet;
     game.player.bet -= game.player.bet;
   }
@@ -423,24 +423,27 @@ const handleNextRound = () => {
   updateBankCoinVisibility();
   enableBankCoinButtons();
   enableBetCoinButtons();
-  shuffledDeck
+  shuffledDeck = shuffleDeck(cardDeck.slice());
+  betPrompt.style.display = "block";
 };
 
 const handleNewGame = () => {
   // new game button function
   resetGameState();
   resetUI();
+   game.player.bank = 1000;
+   game.player.bet = 0;
   renderplayerBank();
   renderBetAmount();
   updateBankCoinVisibility();
   enableBankCoinButtons();
   enableBetCoinButtons();
-  game.player.bank = 1000;
-  game.player.bet = 0;
-  shuffledDeck
+  shuffledDeck = shuffleDeck(cardDeck.slice());
 
   startPage.style.display = "block";
   gamePage.style.display = "none"; // game default page is the start page
+  // dealButton.style.display = "none";
+  // betPrompt.style.display = "block";
 };
 
 // new game = reset everything - should be working
@@ -450,6 +453,7 @@ const handleNewGame = () => {
 
 /*----------------------------- Event Listeners -----------------------------*/
 
+betPrompt.style.display = "none";
 gamePage.style.display = "none"; // game default page is the start page
 startButton.addEventListener("click", () => {
   // click start button to hide start page and show game page
@@ -461,6 +465,7 @@ startButton.addEventListener("click", () => {
   betCoins.style.display = "none";
   nextRoundButton.style.display = "none";
   gamePage.style.display = "block";
+  betPrompt.style.display = "block";
 });
 
 bankCoinButton.forEach((button) => {
@@ -547,12 +552,24 @@ const disableBetCoinButtons = () => {
   })
 }
 
-const displayRoundResult = () => {
-  roundResult.showModal();
+const displayRoundResult = (amount, win) => {
+  setTimeout(() => {
+    roundResult.showModal(); // round result dialog pops up
+    if (win === true) {
+      resultMessage.textContent = `wow! you won $${amount}`;
+    } else if (win === false) {
+      resultMessage.textContent = `boo! you lost $${amount- game.player.bet}!`; // is this correct in the automatic 21 hand logic?
+    } else {
+      resultMessage.textContent = `push!`
+    }
+  }, 1000)
+  closeResult.addEventListener("click", () => roundResult.close());
 }
 
 // losing screen -> lose all money -> LOST -> new game button
+// player's turn or dealer's turn!
 // new game button bring back to the money betting screen
 // dialog win $ / lose $
 // winning screen -> 
 // split pair
+

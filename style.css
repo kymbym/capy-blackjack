@@ -112,7 +112,7 @@ body {
 #deal-button-display {
     display: flex;
     align-items: center;
-    justify-content: left;
+    justify-content: center;
 }
 
 #deal-button {

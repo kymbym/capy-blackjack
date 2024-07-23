@@ -54,7 +54,10 @@ const dealerHand = document.querySelector("#dealer-hand");
 const betPrompt = document.getElementById("bet-prompt");
 const roundResult = document.getElementById("round-result");
 const resultMessage = document.getElementById("result-message");
-const closeResult = document.getElementById("close-result");
+const closeResultMessage = document.getElementById("close-result");
+const lost = document.getElementById("lost")
+const lostMessage = document.getElementById("lost-message");
+const closeLostMessage = document.getElementById("close-lost")
 
 /*---------------------------- Render Functions -----------------------------*/
 
@@ -416,6 +419,9 @@ const handlePayout = (playerWins) => {
 };
 
 const handleNextRound = () => {
+  if (game.player.bank === 0) {
+    displayLostMessage();
+  } else {
   resetGameState();
   resetUI();
   renderplayerBank();
@@ -425,6 +431,7 @@ const handleNextRound = () => {
   enableBetCoinButtons();
   shuffledDeck = shuffleDeck(cardDeck.slice());
   betPrompt.style.display = "block";
+  }
 };
 
 const handleNewGame = () => {
@@ -563,13 +570,18 @@ const displayRoundResult = (amount, win) => {
       resultMessage.textContent = `push!`
     }
   }, 1000)
-  closeResult.addEventListener("click", () => roundResult.close());
+  closeResultMessage.addEventListener("click", () => roundResult.close());
 }
 
-// losing screen -> lose all money -> LOST -> new game button
+const displayLostMessage = () => {
+  lost.showModal();
+  lostMessage.textContent = `you've lost all your money please start new game!`
+  closeLostMessage.addEventListener("click", () => lost.close());
+}
+
+
+// losing screen -> lose all money -> LOST -> new game button 
 // player's turn or dealer's turn!
-// new game button bring back to the money betting screen
-// dialog win $ / lose $
-// winning screen -> 
+// dialog win $ / lose $ -> is this correct in the automatic 21 hand logic?
 // split pair
 

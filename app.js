@@ -437,6 +437,7 @@ const handleNextRound = () => {
   updateBankCoinVisibility();
   renderplayerBank();
   renderBetAmount();
+  getBetCoinDisplay();
 };
 
 const handleNewGame = () => {
@@ -451,6 +452,7 @@ const handleNewGame = () => {
   enableBankCoinButtons();
   enableBetCoinButtons();
   shuffledDeck = shuffleDeck(cardDeck.slice());
+  getBetCoinDisplay();
 
   startPage.style.display = "flex";
   gamePage.style.display = "none"; // game default page is the start page

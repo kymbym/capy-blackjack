@@ -51,6 +51,9 @@ const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
 const playerHand = document.querySelector("#player-hand");
 const dealerHand = document.querySelector("#dealer-hand");
 
+const playersTurn = document.getElementById("player-turn");
+const dealersTurn = document.getElementById("dealer-turn");
+
 const betPrompt = document.getElementById("bet-prompt");
 const roundResult = document.getElementById("round-result");
 const resultMessage = document.getElementById("result-message");
@@ -63,20 +66,20 @@ const closeLostMessage = document.getElementById("close-lost")
 
 const renderBetAmount = () => {
   // render bet amount on display
-  document.getElementById("bet-total").innerText = `Bet: ${game.player.bet}`;
+  document.getElementById("bet-total").innerText = `bet: $${game.player.bet}`;
   getDealButton();
 };
 
 const renderplayerBank = () => {
-  document.getElementById("bank-total").innerText = `Bank: ${game.player.bank}`;
+  document.getElementById("bank-total").innerText = `bank: $${game.player.bank}`;
 };
 
 const renderPlayerScore = () => {
-  document.getElementById("player-score").innerText = `Player Score: ${game.player.score}`;
+  document.getElementById("player-score").innerText = `player's total: ${game.player.score}`;
 };
 
 const renderDealerScore = () => {
-  document.getElementById("dealer-score").innerText = `Dealer Score: ${game.dealer.score}`;
+  document.getElementById("dealer-score").innerText = `dealer's total: ${game.dealer.score}`;
 };
 
 /*-------------------------------- Functions --------------------------------*/
@@ -154,7 +157,7 @@ const handleBankCoinClick = (event) => {
 
 const handleBetCoinClick = (event) => {
   // when player clicks a bet coin button, this is triggered
-  const coinValueString = event.target.getAttribute("data-value"); // Gets the value as a string
+  const coinValueString = event.target.getAttribute("data-value"); // gets the value as a string
   const coinValue = parseInt(coinValueString);
   if (shownBetCoins[coinValue] > 0) {
     // checks if there are still coins for this value in the bet displayed
@@ -198,6 +201,8 @@ const handleDealButton = () => {
   standButton.style.display = "flex"; // stand button is displayed
   newGameButton.style.display = "flex"; // new game button is displayed
   betPrompt.style.display = "none";
+
+  playersTurn.style.display = "flex";
 
   // disable bank coins and bet coins after clicking deal button
  disableBankCoinButtons();
@@ -275,6 +280,7 @@ const handleHitButton = () => {
       game.player.isBust = true; // isbust is set to true
       hitButton.style.display = "none"; // hides hit button
       standButton.style.display = "none"; // hides stand button
+      playersTurn.style.display = "none";
 
       determineWinner();
       revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
@@ -323,6 +329,8 @@ const handleStandButton = () => {
   hitButton.style.display = "none"; // hide hit button
   standButton.style.display = "none"; // hide stand button after clicking stand button
   // dealButton.style.display = "none";
+  playersTurn.style.display = "none";
+  dealersTurn.style.display = "flex";
   revealDealerSecondCard(); // reveals dealer's second card automatically if player busts
   dealerTurn(); // dealer's turn
 };
@@ -377,7 +385,7 @@ const determineWinner = () => {
   game.dealer.isBust = game.dealer.score > 21;
 
   if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21)) {
-    // only the part where player.isbust is not working! - should be working now
+    // only the part where player.isbust is playersTurn.style.display = "flex";not working! - should be working now
     console.log(game.player.score);
     console.log(game.dealer.score);
     console.log("dealer wins");
@@ -391,6 +399,7 @@ const determineWinner = () => {
     console.log("push");
     handlePayout(null);
   }
+  dealersTurn.style.display = "none";
 };
 
 const handlePayout = (playerWins) => {
@@ -426,13 +435,13 @@ const handlePayout = (playerWins) => {
 const handleNextRound = () => {
   resetGameState();
   resetUI();
-  renderplayerBank();
-  renderBetAmount();
-  updateBankCoinVisibility();
   enableBankCoinButtons();
   enableBetCoinButtons();
   shuffledDeck = shuffleDeck(cardDeck.slice());
   betPrompt.style.display = "flex";
+  updateBankCoinVisibility();
+  renderplayerBank();
+  renderBetAmount();
 };
 
 const handleNewGame = () => {
@@ -454,17 +463,14 @@ const handleNewGame = () => {
   // betPrompt.style.display = "flex";
 };
 
-// new game = reset everything - should be working
-// next round = save bank and bet details - should be working
-// why is deal button showing up randomly after a game has ended? it should only be new game - i think it's fixed
-// if player 2 cards = 21 then dealer does not draw - i think it's fixed
-
 /*----------------------------- Event Listeners -----------------------------*/
 
 dealButton.style.display = "none";
 buttons.style.display = "none";
 betPrompt.style.display = "none";
 gamePage.style.display = "none"; // game default page is the start page
+playersTurn.style.display = "none";
+dealersTurn.style.display = "none";
 startButton.addEventListener("click", () => {
   // click start button to hide start page and show game page
   startPage.style.display = "none";
@@ -578,4 +584,4 @@ const displayLostMessage = () => {
 
 // player's turn or dealer's turn indication?
 // split pair
-// bank coin hides when value is out but bet coin does not hide when out of the value !!!! check
+// bank coin hides when value is out but bet coin does not hide when out of the value !!!! ONLY AFTER NEXT ROUND

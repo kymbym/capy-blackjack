@@ -1,78 +1,57 @@
 body {
-    font-family: courier;
-    text-align: center;
     background-color: gray;
     color: white;
 }
 
 #start-page h1 {
+    font-family: courier;
     font-size: 50px;
 }
 
-#start-page button {
-    padding: 5px 10px;
-    font-size: 15px;
+#start-button {
     font-family: courier;
+    font-size: 15px;
+    padding: 5px 7px;
+}
+
+#bet-prompt {
+    font-family: courier;
+    font-size: 15px;
 }
 
 #game-page {
-    font-size: 10px;
-}
-
-#bank-display {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
     display: flex;
-    flex-direction: column;
-}
-
-.bank-coin {
-    font-family: courier;
-    font-size: 20px;
-    position: static;
-    display: flex;
-    flex-direction: column;
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px white;
-}
-
-#bank-total {
-    font-family: courier;
-    font-size: 20px;
-}
-
-#bet-display {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .bet-coin {
     font-family: courier;
     font-size: 20px;
-    position: static;
-    display: flex;
-    flex-direction: column;
     width: 50px;
     height: 50px;
     margin: 10px;
-    align-items: center;
-    justify-content: center;
     border-radius: 50%;
     border: 1px white;
 }
 
 #bet-total {
     font-family: courier;
+    font-size: 15px;
+}
+
+.bank-coin {
+    font-family: courier;
     font-size: 20px;
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 50%;
+    border: 1px white;
+}
+
+#bank-total {
+    font-family: courier;
+    font-size: 15px;
 }
 
 #card-display {
@@ -83,24 +62,31 @@ body {
 }
 
 .card {
+    font-family: courier;
     width: 60px;
     height: 80px;
     display: inline-block;
-    background-color: lightpink;
+    background-color: burlywood;
     border: 1px solid white;
     border-radius: 5px;
     line-height: 80px;
     margin: 5px;
     text-align: center;
-    font-size: 40px;
+    font-size: 20px;
     color: white;
     opacity: 1;
     transition: transform 0.5s, opacity 0.5s;
 }
 
 .card.face-down {
-    background-color: lightblue;
+    background-color: burlywood;
     color: transparent;
+}
+
+#dealer-score, #player-score {
+    font-family: courier;
+    font-size: 15px;
+    text-align: center;
 }
 
 #dealer-hand, #player-hand {
@@ -109,8 +95,7 @@ body {
     align-items: center;
 }
 
-#deal-button-display {
-    display: flex;
+#deal-button {
     align-items: center;
     justify-content: center;
 }
@@ -122,24 +107,11 @@ body {
 }
 
 #hit-button, #stand-button, #new-game-button, #next-round-button {
-    padding: 5px 10px;
-    font-size: 15px;
     font-family: courier;
+    font-size: 15px;
+    padding: 5px 7px;
 }
 
 button:hover {
     background-color: lightblue;
-}
-
-.result {
-    font-size: 24px;
-    margin: 20px 0;
-}
-
-#dealer-hand, #player-hand {
-    font-family: courier;
-    font-size: 40px;
-    display: flex;
-    justify-content: center;
-    margin: 10px;
 }

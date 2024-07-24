@@ -8,83 +8,69 @@
 </head>
 <body>
 
-<!-- start page -->
-    <div id="start-page">
+    <section id="start-page">
         <h1>capy blackjack</h1>
-        <button id="start-button">Start Game</button>
-    </div>
+        <button id="start-button">start game</button>
+    </section>
 
-     <div id="bet-prompt">
+    <div id="bet-prompt">
         <h1>place your bets!</h1>
     </div>
-
-     <dialog id="round-result">
+    
+    <dialog id="round-result">
         <h2>result:</h2>
         <p id="result-message"></p>
         <button id="close-result">close</button>
     </dialog>
 
-<!-- game page -->
- <div id="game-page"> 
-    <!-- bank + bets -->
-     <div id="bank-display">
+    <section id="game-page">
+
+        <div id="bet-coins">
+            <button class="bet-coin" data-value="1">1</button>
+            <button class="bet-coin" data-value="10">10</button>
+            <button class="bet-coin" data-value="50">50</button>
+            <button class="bet-coin" data-value="100">100</button>
+            <div id="bet-display">
+                <h3 id="bet-total">bet: $0</h3>
+            </div>
+        </div>
+
         <div id="bank-coins">
             <button class="bank-coin" data-value="1">1</button>
-            <!-- <button class="bank-coin" data-value="5">5</button> -->
             <button class="bank-coin" data-value="10">10</button>
-            <!-- <button class="bank-coin" data-value="25">25</button> -->
             <button class="bank-coin" data-value="50">50</button>
             <button class="bank-coin" data-value="100">100</button>
-        </div>
-        <div id="bank-total">Bank: $1000</div>
-     </div>
+            <div id="bank-display">
+                <h3 id="bank-total">bank: $1000</h3>
+            </div>
+        </div> 
 
-<!-- bet display -->
-<div id="bet-display">
-    <div id="bet-total"></div>
-</div>
+    </section>
 
-<div id="bet-coins">
-    <button class="bet-coin" data-value="1">1</button>
-    <!-- <button class="bet-coin" data-value="5">5</button> -->
-    <button class="bet-coin" data-value="10">10</button>
-    <!-- <button class="bet-coin" data-value="25">25</button> -->
-    <button class="bet-coin" data-value="50">50</button>
-    <button class="bet-coin" data-value="100">100</button>
-</div>
+    <section id="card-display">
+        <div id="dealer-hand"></div>
+        <div id="dealer-score"></div>
+        <div id="player-hand"></div>
+        <div id="player-score"></div>
+    </section>
 
-<!-- card display -->
- <div id="card-display">
-    <div id="dealer-hand"></div>
-    <div id="dealer-score"></div>
-    <div id="player-hand"></div>
-    <div id="player-score"></div>
- </div>
-
- <div id="deal-button-display">
-    <button id="deal-button">Deal</button>
- </div>
-
+    <button id="deal-button">deal</button>
  
- <!-- buttons -->
-  <div id="buttons">
-    <button id="hit-button">Hit</button>
-    <button id="stand-button">Stand</button>
-    <button id="new-game-button">New Game</button>
-    <button id="next-round-button">Next Round</button>
-  </div>
+    <section id="buttons">
+        <button id="hit-button">hit</button>
+        <button id="stand-button">stand</button>
+        <button id="new-game-button">new game</button>
+        <button id="next-round-button">next round!</button>
+    </section>
 
-  <div id="result-message"></div>
-
-  <dialog id="lost">
+    <div id="result-message"></div>
+    <dialog id="lost">
         <h2>oh no!</h2>
         <p id="lost-message"></p>
         <button id="close-lost">close</button>
     </dialog>
 
     <script src="app.js"></script>
-
-
 
 </body>
 </html>

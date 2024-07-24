@@ -43,7 +43,7 @@ const hitButton = document.getElementById("hit-button");
 const standButton = document.getElementById("stand-button");
 const newGameButton = document.getElementById("new-game-button");
 const nextRoundButton = document.getElementById("next-round-button");
-// const buttons = document.getElementById("buttons");
+const buttons = document.getElementById("buttons");
 
 const bankCoinButton = document.querySelectorAll("#bank-coins .bank-coin");
 const betCoinButton = document.querySelectorAll("#bet-coins .bet-coin");
@@ -191,6 +191,7 @@ const getDealButton = () => {
 const handleDealButton = () => {
   // when player clicks deal button, this is triggered
   dealCards();
+  buttons.style.display = "block";
   cardDisplay.style.display = "block"; // cards are displayed
   dealButton.style.display = "none"; // deal button is hidden
   hitButton.style.display = "block"; // hit button is displayed
@@ -360,8 +361,8 @@ const dealerTurn = () => {
 
     if (game.dealer.score < game.player.score && game.dealer.score <= 21 && initialPlayerScore != 21) { // if initial player score is 21, do not draw and player wins
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
-      setTimeout(drawDealerCard, 2000); // draw card if conditions met!
-      setTimeout(dealerDrawCards, 4000); // setTimeout() from MDN - waits 3 seconds before drawing next card
+      setTimeout(drawDealerCard, 1000); // draw card if conditions met!
+      setTimeout(dealerDrawCards, 2000); // setTimeout() from MDN - waits 3 seconds before drawing next card
     } else if (initialPlayerScore === 21) {
       determineWinner(); // if initial hand of player === 21 then dealer should not draw
     } else {
@@ -397,11 +398,11 @@ const handlePayout = (playerWins) => {
     const initialPlayerHand = Array.from(playerHand.querySelectorAll(".card"));
     const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
     if (initialPlayerScore === 21) {
-      displayRoundResult(game.player.bet * 2.5, true);
+      displayRoundResult(game.player.bet * 1.5, true);
       game.player.bank += game.player.bet * 2.5; 
       game.player.bet -= game.player.bet;
     } else {
-      displayRoundResult(game.player.bet * 2, true);
+      displayRoundResult(game.player.bet, true);
       game.player.bank += game.player.bet * 2;
       game.player.bet -= game.player.bet;
     }
@@ -409,7 +410,7 @@ const handlePayout = (playerWins) => {
     displayRoundResult(game.player.bet, false);
     game.player.bet -= game.player.bet;
   } else {
-    displayRoundResult(game.player.bet, false);
+    displayRoundResult(game.player.bet - game.player.bet, null);
     game.player.bank += game.player.bet;
     game.player.bet -= game.player.bet;
   }
@@ -460,6 +461,8 @@ const handleNewGame = () => {
 
 /*----------------------------- Event Listeners -----------------------------*/
 
+dealButton.style.display = "none";
+buttons.style.display = "none";
 betPrompt.style.display = "none";
 gamePage.style.display = "none"; // game default page is the start page
 startButton.addEventListener("click", () => {
@@ -494,9 +497,6 @@ newGameButton.addEventListener("click", handleNewGame);
 
 nextRoundButton.addEventListener("click", handleNextRound);
 
-// need to add something that if no more money in bank, then the next round button is no longer available!
-// dealer's turn and player's turn indication
-
 /*----------------------------- Helper Functions -----------------------------*/
 
 const resetUI = () => {
@@ -510,9 +510,6 @@ const resetUI = () => {
   nextRoundButton.style.display = "none";
   betCoins.style.display = "none";
   betCoinButton.forEach((button) => (button.style.display = "none"));
-
-  // // add bet prompt
-  // betPrompt.style.display = "block";
 }
 
 const resetGameState = () => {
@@ -580,8 +577,11 @@ const displayLostMessage = () => {
 }
 
 
-// losing screen -> lose all money -> LOST -> new game button 
 // player's turn or dealer's turn!
 // dialog win $ / lose $ -> is this correct in the automatic 21 hand logic?
 // split pair
 
+// if push need to render the dialog message properly why am i losing
+// if i bet 50, dialog should not say i won 100 but i won 50!
+
+// dealer's turn and player's turn indication

@@ -8,13 +8,9 @@
 </head>
 <body>
 
-    <section id="start-page">
+    <div id="start-page">
         <h1>capy blackjack</h1>
         <button id="start-button">start game</button>
-    </section>
-
-    <div id="bet-prompt">
-        <h1>place your bets!</h1>
     </div>
     
     <dialog id="round-result">
@@ -23,7 +19,11 @@
         <button id="close-result">close</button>
     </dialog>
 
-    <section id="game-page">
+    <div id="game-page">
+
+    <div id="bet-prompt">
+        <h1>place your bets!</h1>
+    </div>
 
         <div id="bet-coins">
             <button class="bet-coin" data-value="1">1</button>
@@ -31,7 +31,7 @@
             <button class="bet-coin" data-value="50">50</button>
             <button class="bet-coin" data-value="100">100</button>
             <div id="bet-display">
-                <h3 id="bet-total">bet: $0</h3>
+                <h3 id="bet-total">Bet: $0</h3>
             </div>
         </div>
 
@@ -41,27 +41,29 @@
             <button class="bank-coin" data-value="50">50</button>
             <button class="bank-coin" data-value="100">100</button>
             <div id="bank-display">
-                <h3 id="bank-total">bank: $1000</h3>
+                <h3 id="bank-total">Bank: $1000</h3>
             </div>
         </div> 
 
-    </section>
+        <div id="card-display">
+            <div id="dealer-score"></div>
+            <div id="dealer-hand"></div>
+            <div id="player-score"></div>
+            <div id="player-hand"></div>
+        </div>
 
-    <section id="card-display">
-        <div id="dealer-hand"></div>
-        <div id="dealer-score"></div>
-        <div id="player-hand"></div>
-        <div id="player-score"></div>
-    </section>
-
-    <button id="deal-button">deal</button>
- 
-    <section id="buttons">
+         
+    <div id="buttons">
         <button id="hit-button">hit</button>
         <button id="stand-button">stand</button>
         <button id="new-game-button">new game</button>
         <button id="next-round-button">next round!</button>
-    </section>
+    </div>
+
+    </div>
+
+
+    <button id="deal-button">deal</button>
 
     <div id="result-message"></div>
     <dialog id="lost">

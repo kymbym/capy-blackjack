@@ -89,7 +89,7 @@ const updateBankCoinVisibility = () => {
     const coinValue = parseInt(button.getAttribute("data-value"));
     if (coinValue <= playerBank) {
       // if coinvalue is less or equal to bank amount then show coins
-      button.style.display = "block";
+      button.style.display = "flex";
     } else {
       // but if the coinvalue is more than bank amount then it will hide because not enough money
       button.style.display = "none";
@@ -114,7 +114,7 @@ const getBetCoin = (coinValue) => {
 const getBetCoinDisplay = () => {
   for (let i = 0; i < betCoinButton.length; i++) {
     const button = betCoinButton[i];
-    const coinValueString = button.getAttribute("data-value"); // Gets the value as a string
+    const coinValueString = button.getAttribute("data-value"); // gets the value as a string
     const coinValue = parseInt(coinValueString);
     shownBetCoins[coinValue] = 0;
     button.style.display = "none";
@@ -134,13 +134,13 @@ const handleBankCoinClick = (event) => {
     renderplayerBank();
 
     if (betCoins.style.display === "none") {
-      betCoins.style.display = "block";
+      betCoins.style.display = "flex";
     }
 
     const retrieveBetCoinButton = getBetCoin(coinValue); // retrieve bet coin button that matches the value of clicked bank coin button
 
     if (retrieveBetCoinButton) {
-      retrieveBetCoinButton.style.display = "block";
+      retrieveBetCoinButton.style.display = "flex";
       shownBetCoins[coinValue]++;
     } else {
     console.log("no money for bets!");
@@ -181,7 +181,7 @@ const handleBetCoinClick = (event) => {
 const getDealButton = () => {
   // deal button is displayed if player bet any amount of money (anything > 0)
   if (game.player.bet > 0) {
-    dealButton.style.display = "block";
+    dealButton.style.display = "flex";
   } else {
     // deal button is hidden if no bets placed
     dealButton.style.display = "none";
@@ -191,12 +191,12 @@ const getDealButton = () => {
 const handleDealButton = () => {
   // when player clicks deal button, this is triggered
   dealCards();
-  buttons.style.display = "block";
-  cardDisplay.style.display = "block"; // cards are displayed
+  buttons.style.display = "flex";
+  cardDisplay.style.display = "flex"; // cards are displayed
   dealButton.style.display = "none"; // deal button is hidden
-  hitButton.style.display = "block"; // hit button is displayed
-  standButton.style.display = "block"; // stand button is displayed
-  newGameButton.style.display = "block"; // new game button is displayed
+  hitButton.style.display = "flex"; // hit button is displayed
+  standButton.style.display = "flex"; // stand button is displayed
+  newGameButton.style.display = "flex"; // new game button is displayed
   betPrompt.style.display = "none";
 
   // disable bank coins and bet coins after clicking deal button
@@ -416,13 +416,14 @@ const handlePayout = (playerWins) => {
   }
   renderplayerBank();
   renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton(); hm but it's not showing up now
-  nextRoundButton.style.display = "block"; // this should show up after payouts are done
+  nextRoundButton.style.display = "flex"; // this should show up after payouts are done
+
+  if (game.player.bank === 0) {
+    nextRoundButton.style.display = "none";
+  }
 };
 
 const handleNextRound = () => {
-  if (game.player.bank === 0) {
-    displayLostMessage();
-  } else {
   resetGameState();
   resetUI();
   renderplayerBank();
@@ -431,8 +432,7 @@ const handleNextRound = () => {
   enableBankCoinButtons();
   enableBetCoinButtons();
   shuffledDeck = shuffleDeck(cardDeck.slice());
-  betPrompt.style.display = "block";
-  }
+  betPrompt.style.display = "flex";
 };
 
 const handleNewGame = () => {
@@ -448,10 +448,10 @@ const handleNewGame = () => {
   enableBetCoinButtons();
   shuffledDeck = shuffleDeck(cardDeck.slice());
 
-  startPage.style.display = "block";
+  startPage.style.display = "flex";
   gamePage.style.display = "none"; // game default page is the start page
   // dealButton.style.display = "none";
-  // betPrompt.style.display = "block";
+  // betPrompt.style.display = "flex";
 };
 
 // new game = reset everything - should be working
@@ -474,8 +474,8 @@ startButton.addEventListener("click", () => {
   dealButton.style.display = "none";
   betCoins.style.display = "none";
   nextRoundButton.style.display = "none";
-  gamePage.style.display = "block";
-  betPrompt.style.display = "block";
+  gamePage.style.display = "flex";
+  betPrompt.style.display = "flex";
 });
 
 bankCoinButton.forEach((button) => {
@@ -576,12 +576,6 @@ const displayLostMessage = () => {
   closeLostMessage.addEventListener("click", () => lost.close());
 }
 
-
-// player's turn or dealer's turn!
-// dialog win $ / lose $ -> is this correct in the automatic 21 hand logic?
+// player's turn or dealer's turn indication?
 // split pair
-
-// if push need to render the dialog message properly why am i losing
-// if i bet 50, dialog should not say i won 100 but i won 50!
-
-// dealer's turn and player's turn indication
+// bank coin hides when value is out but bet coin does not hide when out of the value !!!! check

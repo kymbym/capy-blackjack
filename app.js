@@ -425,7 +425,6 @@ const handlePayout = (playerWins) => {
   }
   renderplayerBank();
   renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton(); hm but it's not showing up now
-  nextRoundButton.style.display = "flex"; // this should show up after payouts are done
 
   if (game.player.bank === 0) {
     nextRoundButton.style.display = "none";
@@ -568,12 +567,18 @@ const displayRoundResult = (amount, win) => {
     if (win === true) {
       resultMessage.textContent = `wow! you won $${amount}`;
     } else if (win === false) {
-      resultMessage.textContent = `boo! you lost $${amount- game.player.bet}!`; // is this correct in the automatic 21 hand logic?
+      resultMessage.textContent = `boo! you lost $${amount - game.player.bet}!`; // is this correct in the automatic 21 hand logic?
     } else {
-      resultMessage.textContent = `push!`
+      resultMessage.textContent = `push!`;
     }
-  }, 1000)
-  closeResultMessage.addEventListener("click", () => roundResult.close());
+  }, 1000);
+  const getNextRoundbutton = () => {
+    nextRoundButton.style.display = "flex";
+  };
+  closeResultMessage.addEventListener("click", () => {
+  roundResult.close();
+  getNextRoundbutton();
+})
 }
 
 const displayLostMessage = () => {
@@ -582,6 +587,4 @@ const displayLostMessage = () => {
   closeLostMessage.addEventListener("click", () => lost.close());
 }
 
-// player's turn or dealer's turn indication?
 // split pair
-// bank coin hides when value is out but bet coin does not hide when out of the value !!!! ONLY AFTER NEXT ROUND

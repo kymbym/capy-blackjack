@@ -217,3 +217,10 @@ button:hover {
     background-color: lightblue;
     cursor: pointer;
 } 
+
+#result-message {
+    font-family: courier;
+    font-size: 16px;
+    top: 50%;
+    left: 50%;
+}

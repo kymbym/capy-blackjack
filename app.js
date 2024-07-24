@@ -425,10 +425,6 @@ const handlePayout = (playerWins) => {
   }
   renderplayerBank();
   renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton(); hm but it's not showing up now
-
-  if (game.player.bank === 0) {
-    nextRoundButton.style.display = "none";
-  }
 };
 
 const handleNextRound = () => {
@@ -572,13 +568,23 @@ const displayRoundResult = (amount, win) => {
       resultMessage.textContent = `push!`;
     }
   }, 1000);
+
   const getNextRoundbutton = () => {
     nextRoundButton.style.display = "flex";
   };
-  closeResultMessage.addEventListener("click", () => {
-  roundResult.close();
-  getNextRoundbutton();
-})
+
+  if (game.player.bank === 0) {
+    closeResultMessage.addEventListener("click", () => {
+      roundResult.close();
+      nextRoundButton.style.display = "none";
+    });
+
+  } else {
+    closeResultMessage.addEventListener("click", () => {
+      roundResult.close();
+      getNextRoundbutton();
+    });
+  }
 }
 
 const displayLostMessage = () => {

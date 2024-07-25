@@ -58,9 +58,11 @@ const betPrompt = document.getElementById("bet-prompt");
 const roundResult = document.getElementById("round-result");
 const resultMessage = document.getElementById("result-message");
 const closeResultMessage = document.getElementById("close-result");
-const lost = document.getElementById("lost")
-const lostMessage = document.getElementById("lost-message");
-const closeLostMessage = document.getElementById("close-lost")
+const openRules = document.getElementById("open-rules");
+const closeRules = document.getElementById("close-rules")
+// const lost = document.getElementById("lost")
+// const lostMessage = document.getElementById("lost-message");
+// const closeLostMessage = document.getElementById("close-lost")
 
 /*---------------------------- Render Functions -----------------------------*/
 
@@ -475,6 +477,14 @@ const handleNewGame = () => {
   // betPrompt.style.display = "flex";
 };
 
+const handleOpenRules = () => {
+  document.getElementById("rules").showModal();
+};
+
+const handleCloseRules = () => {
+  document.getElementById("rules").close();
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 dealButton.style.display = "none";
@@ -514,6 +524,10 @@ standButton.addEventListener("click", handleStandButton);
 newGameButton.addEventListener("click", handleNewGame);
 
 nextRoundButton.addEventListener("click", handleNextRound);
+
+openRules.addEventListener("click", handleOpenRules);
+
+closeRules.addEventListener("click", handleCloseRules);
 
 /*----------------------------- Helper Functions -----------------------------*/
 
@@ -604,10 +618,11 @@ const displayRoundResult = (amount, win) => {
   }
 }
 
-const displayLostMessage = () => {
-  lost.showModal();
-  lostMessage.textContent = `you've lost all your money please start new game!`
-  closeLostMessage.addEventListener("click", () => lost.close());
-}
+
+// const displayLostMessage = () => {
+//   lost.showModal();
+//   lostMessage.textContent = `you've lost all your money please start new game!`
+//   closeLostMessage.addEventListener("click", () => lost.close());
+// }
 
 // split pair

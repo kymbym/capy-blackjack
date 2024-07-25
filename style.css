@@ -1,5 +1,5 @@
 html, body {
-    background-color: #a1ae89;
+    background-color: #B4E1D8;
     color: white;
     height: 100%;
     width: 100%;
@@ -142,9 +142,8 @@ html, body {
 
 .card {
     font-family: varsity team;
-    width: 60px;
-    height: 80px;
-    background-color: burlywood;
+    width: 140px;
+    height: 170px;
     border: 1px solid white;
     border-radius: 5px;
     line-height: 80px;
@@ -156,10 +155,10 @@ html, body {
     transition: transform 0.5s, opacity 0.5s;
     align-items: center;
     justify-content: center;
-    background-size: cover;
-    background-position: center;
+    background-size: 280%;
+    background-position: center 45%;
     background-repeat: no-repeat;
-
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card.face-down {

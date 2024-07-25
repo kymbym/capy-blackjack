@@ -228,7 +228,6 @@ const dealCard = (handElement, card, faceDown) => {
   if (faceDown) {
     cardElement.classList.add("face-down"); // add a class for the face down cards
     cardElement.innerText = ""; 
-    // cardElement.style.backgroundColor = "darkblue"; //
   } else {
     // cardElement.innerText = card; // displays card value of face-up cards
     cardElement.style.backgroundImage = `url(images/${card}.jpeg)`;
@@ -344,6 +343,7 @@ const revealDealerSecondCard = () => {
     const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
     faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
     faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
+    // faceDownCard.style.backgroundImage = `url(images/${card}.jpeg)`;
     // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
     game.dealer.score = calculateHandScore(dealerHand, false); // recalculate score with all of dealer's cards now
 

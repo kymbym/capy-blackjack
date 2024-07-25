@@ -334,22 +334,37 @@ const handleStandButton = () => {
   dealerTurn(); // dealer's turn
 };
 
+// const revealDealerSecondCard = () => {
+//   const dealerCards = dealerHand.querySelectorAll(".card"); // selects all of dealer's cards
+//   if (dealerCards.length > 1) {
+//     // if there is more than 1 card (aka retrieves the face-down card)
+//     // reveal dealer's face down card
+
+//     const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
+//     faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
+//     faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
+//     // faceDownCard.style.backgroundImage = `url(images/${card}.jpeg)`;
+//     // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
+//     game.dealer.score = calculateHandScore(dealerHand, false); // recalculate score with all of dealer's cards now
+
+//     renderDealerScore();
+//   }
+// };
+
 const revealDealerSecondCard = () => {
   const dealerCards = dealerHand.querySelectorAll(".card"); // selects all of dealer's cards
   if (dealerCards.length > 1) {
     // if there is more than 1 card (aka retrieves the face-down card)
     // reveal dealer's face down card
-
     const faceDownCard = dealerCards[0]; // reveals first face-down card of dealer
     faceDownCard.classList.remove("face-down"); // removes face-down and reveals card
-    faceDownCard.innerText = faceDownCard.dataset.value; // updates with actual value
-    // faceDownCard.style.backgroundImage = `url(images/${card}.jpeg)`;
-    // faceDownCard.innerText = shuffledDeck.pop(); // no this is wrong this takes a new card? i think???
+    faceDownCard.style.backgroundImage = `url(images/${faceDownCard.dataset.value}.jpeg)`; // reveals card image
     game.dealer.score = calculateHandScore(dealerHand, false); // recalculate score with all of dealer's cards now
-
     renderDealerScore();
   }
 };
+
+
 
 const drawDealerCard = () => {
   dealCard(dealerHand, shuffledDeck.pop(), false); // deal a new card to dealer

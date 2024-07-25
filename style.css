@@ -1,5 +1,5 @@
 html, body {
-    background-color: #B4E1D8;
+    background-color: #A89B8C;
     color: white;
     height: 100%;
     width: 100%;
@@ -75,30 +75,30 @@ html, body {
 .bank-coin {
     font-family: varsity team;
     font-size: 25px;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     margin: 10px;
     border-radius: 50%;
     border: 1px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ba9b83;
+    background-color: #6A7B8C;
     color: white;
 }
 
 .bet-coin {
     font-family: varsity team;
     font-size: 25px;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     margin: 10px;
     border-radius: 50%;
     border: 1px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ba9b83;
+    background-color: #6A7B8C;
     color: white;
 }
 
@@ -162,8 +162,11 @@ html, body {
 }
 
 .card.face-down {
-    background-color: blanchedalmond;
+    background-color: #6A7B8C;
     color: transparent;
+    background-size: 280%;
+    background-position: center 45%;
+    background-repeat: no-repeat;
 }
 
 #player-turn, #dealer-turn {
@@ -221,8 +224,9 @@ html, body {
 }
 
 button:hover {
-    background-color: lightblue;
+    background-color: #9C9A6C;
     cursor: pointer;
+    color: white;
 } 
 
 #result-message {

@@ -152,6 +152,9 @@ html, body {
     transition: transform 0.5s, opacity 0.5s;
     align-items: center;
     justify-content: center;
+    background-size: cover;
+    
+    /* background-image: url('/Users/kymmyfong/Documents/ga/capy-blackjack/images/cards/${card}.png') */
 }
 
 .card.face-down {

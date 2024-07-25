@@ -224,14 +224,14 @@ let shuffledDeck = shuffleDeck(cardDeck.slice()); // stores a shuffled deck of c
 const dealCard = (handElement, card, faceDown) => {
   const cardElement = document.createElement("div");
   cardElement.classList.add("card"); // stores card value in data attribute html
-  cardElement.style.backgroundImage = `url($../images/cards/${card}.png)`;
 
   if (faceDown) {
     cardElement.classList.add("face-down"); // add a class for the face down cards
     cardElement.innerText = ""; 
     // cardElement.style.backgroundColor = "darkblue"; //
   } else {
-    cardElement.innerText = card; // displays card value of face-up cards
+    // cardElement.innerText = card; // displays card value of face-up cards
+    cardElement.style.backgroundImage = `url(images/${card}.jpeg)`;
   }
 
   cardElement.dataset.value = card; // stores card value in card attribute

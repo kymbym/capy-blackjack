@@ -1,10 +1,58 @@
 /*-------------------------------- Constants --------------------------------*/
 
 const cardDeck = [
-  "dA", "dQ", "dK", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02",
-  "hA", "hQ", "hK", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02",
-  "cA", "cQ", "cK", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02",
-  "sA", "sQ", "sK", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02",
+  "dA",
+  "dQ",
+  "dK",
+  "dJ",
+  "d10",
+  "d09",
+  "d08",
+  "d07",
+  "d06",
+  "d05",
+  "d04",
+  "d03",
+  "d02",
+  "hA",
+  "hQ",
+  "hK",
+  "hJ",
+  "h10",
+  "h09",
+  "h08",
+  "h07",
+  "h06",
+  "h05",
+  "h04",
+  "h03",
+  "h02",
+  "cA",
+  "cQ",
+  "cK",
+  "cJ",
+  "c10",
+  "c09",
+  "c08",
+  "c07",
+  "c06",
+  "c05",
+  "c04",
+  "c03",
+  "c02",
+  "sA",
+  "sQ",
+  "sK",
+  "sJ",
+  "s10",
+  "s09",
+  "s08",
+  "s07",
+  "s06",
+  "s05",
+  "s04",
+  "s03",
+  "s02",
 ];
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -59,7 +107,7 @@ const roundResult = document.getElementById("round-result");
 const resultMessage = document.getElementById("result-message");
 const closeResultMessage = document.getElementById("close-result");
 const openRules = document.getElementById("open-rules");
-const closeRules = document.getElementById("close-rules")
+const closeRules = document.getElementById("close-rules");
 // const lost = document.getElementById("lost")
 // const lostMessage = document.getElementById("lost-message");
 // const closeLostMessage = document.getElementById("close-lost")
@@ -73,15 +121,21 @@ const renderBetAmount = () => {
 };
 
 const renderplayerBank = () => {
-  document.getElementById("bank-total").innerText = `bank: $${game.player.bank}`;
+  document.getElementById(
+    "bank-total"
+  ).innerText = `bank: $${game.player.bank}`;
 };
 
 const renderPlayerScore = () => {
-  document.getElementById("player-score").innerText = `player's total: ${game.player.score}`;
+  document.getElementById(
+    "player-score"
+  ).innerText = `player's total: ${game.player.score}`;
 };
 
 const renderDealerScore = () => {
-  document.getElementById("dealer-score").innerText = `dealer's total: ${game.dealer.score}`;
+  document.getElementById(
+    "dealer-score"
+  ).innerText = `dealer's total: ${game.dealer.score}`;
 };
 
 /*-------------------------------- Functions --------------------------------*/
@@ -104,7 +158,7 @@ const updateBankCoinVisibility = () => {
 
 const getBetCoin = (coinValue) => {
   // getbetcoin function retrieves the bet coin button and displays or hides according to player's action
-  
+
   const buttonArray = Array.from(betCoinButton);
   for (let i = 0; i < buttonArray.length; i++) {
     const buttonValue = parseInt(buttonArray[i].getAttribute("data-value"));
@@ -128,8 +182,8 @@ const getBetCoinDisplay = () => {
 getBetCoinDisplay();
 
 const handleBankCoinClick = (event) => {
-  const coinValueString = event.target.getAttribute("data-value"); 
-  const coinValue = parseInt(coinValueString); 
+  const coinValueString = event.target.getAttribute("data-value");
+  const coinValue = parseInt(coinValueString);
 
   if (game.player.bank >= coinValue) {
     game.player.bet += coinValue;
@@ -148,14 +202,13 @@ const handleBankCoinClick = (event) => {
       retrieveBetCoinButton.style.display = "flex";
       shownBetCoins[coinValue]++;
     } else {
-    console.log("no money for bets!");
+      console.log("no money for bets!");
+    }
   }
-}
 
   updateBankCoinVisibility();
   getDealButton();
 };
-
 
 const handleBetCoinClick = (event) => {
   // when player clicks a bet coin button, this is triggered
@@ -207,8 +260,8 @@ const handleDealButton = () => {
   playersTurn.style.display = "flex";
 
   // disable bank coins and bet coins after clicking deal button
- disableBankCoinButtons();
- disableBetCoinButtons();
+  disableBankCoinButtons();
+  disableBetCoinButtons();
 };
 
 // searched for the Fisher-Yates shuffle algorithm as i read that this method of shuffling is more shuffled than simply iterating through 52 cards
@@ -229,7 +282,7 @@ const dealCard = (handElement, card, faceDown) => {
 
   if (faceDown) {
     cardElement.classList.add("face-down"); // add a class for the face down cards
-    cardElement.innerText = ""; 
+    cardElement.innerText = "";
   } else {
     // cardElement.innerText = card; // displays card value of face-up cards
     cardElement.style.backgroundImage = `url(images/${card}.jpeg)`;
@@ -360,12 +413,17 @@ const dealerTurn = () => {
 
   // if not
   const dealerDrawCards = () => {
+    const initialPlayerHand = Array.from(playerHand.querySelectorAll(".card"));
+    const initialPlayerScore =
+      initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
+    console.log(initialPlayerScore);
 
-  const initialPlayerHand = Array.from(playerHand.querySelectorAll(".card"));
-  const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
-  console.log(initialPlayerScore)
-
-    if (game.dealer.score < game.player.score && game.dealer.score <= 21 && initialPlayerScore != 21) { // if initial player score is 21, do not draw and player wins
+    if (
+      game.dealer.score < game.player.score &&
+      game.dealer.score <= 21 &&
+      initialPlayerScore != 21
+    ) {
+      // if initial player score is 21, do not draw and player wins
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
       setTimeout(drawDealerCard, 1000); // draw card if conditions met!
       setTimeout(dealerDrawCards, 2000); // setTimeout() from MDN - waits 3 seconds before drawing next card
@@ -382,13 +440,19 @@ const determineWinner = () => {
   game.player.isBust = game.player.score > 21;
   game.dealer.isBust = game.dealer.score > 21;
 
-  if (game.player.isBust || (game.player.score < game.dealer.score && game.dealer.score <= 21)) {
+  if (
+    game.player.isBust ||
+    (game.player.score < game.dealer.score && game.dealer.score <= 21)
+  ) {
     // only the part where player.isbust is playersTurn.style.display = "flex";not working! - should be working now
     console.log(game.player.score);
     console.log(game.dealer.score);
     console.log("dealer wins");
     handlePayout(false);
-  } else if (game.dealer.isBust || (game.player.score > game.dealer.score && game.player.score <= 21)) {
+  } else if (
+    game.dealer.isBust ||
+    (game.player.score > game.dealer.score && game.player.score <= 21)
+  ) {
     // dealer bust or game player score higher than dealer
     console.log("player wins");
     handlePayout(true);
@@ -398,15 +462,18 @@ const determineWinner = () => {
     handlePayout(null);
   }
   dealersTurn.style.display = "none";
+
+  
 };
 
 const handlePayout = (playerWins) => {
   if (playerWins === true) {
     const initialPlayerHand = Array.from(playerHand.querySelectorAll(".card"));
-    const initialPlayerScore = initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
+    const initialPlayerScore =
+      initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
     if (initialPlayerScore === 21) {
       displayRoundResult(game.player.bet * 1.5, true);
-      game.player.bank += game.player.bet * 2.5; 
+      game.player.bank += game.player.bet * 2.5;
       game.player.bet -= game.player.bet;
     } else {
       displayRoundResult(game.player.bet, true);
@@ -423,7 +490,6 @@ const handlePayout = (playerWins) => {
   }
   renderplayerBank();
   renderBetAmount(); // deal button is showing up because of render bet amount and it contains getDealButton(); hm but it's not showing up now
-  nextRoundButton.style.display = "none";
 };
 
 const handleNextRound = () => {
@@ -443,8 +509,8 @@ const handleNewGame = () => {
   // new game button function
   resetGameState();
   resetUI();
-   game.player.bank = 1000;
-   game.player.bet = 0;
+  game.player.bank = 1000;
+  game.player.bet = 0;
   renderplayerBank();
   renderBetAmount();
   updateBankCoinVisibility();
@@ -465,7 +531,7 @@ const handleOpenRules = () => {
 
 const handleCloseRules = () => {
   document.getElementById("rules").close();
-}
+};
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -524,7 +590,7 @@ const resetUI = () => {
   nextRoundButton.style.display = "none";
   betCoins.style.display = "none";
   betCoinButton.forEach((button) => (button.style.display = "none"));
-}
+};
 
 const resetGameState = () => {
   const resetEntity = (entity) => {
@@ -532,9 +598,9 @@ const resetGameState = () => {
     entity.score = 0;
     entity.isBust = false;
     entity.isStanding = false;
-}
-resetEntity(game.player);
-resetEntity(game.dealer);
+  };
+  resetEntity(game.player);
+  resetEntity(game.dealer);
 };
 
 // enable bank coin buttons
@@ -542,7 +608,7 @@ const enableBankCoinButtons = () => {
   bankCoinButton.forEach((button) => {
     button.addEventListener("click", handleBankCoinClick);
     button.disabled = false;
-  })
+  });
 };
 
 // enable bet coin buttons
@@ -550,25 +616,24 @@ const enableBetCoinButtons = () => {
   betCoinButton.forEach((button) => {
     button.addEventListener("click", handleBetCoinClick);
     button.disabled = false;
-  })
-}
-
+  });
+};
 
 // disable bank coin buttons
 const disableBankCoinButtons = () => {
   bankCoinButton.forEach((button) => {
     button.removeEventListener("click", handleBankCoinClick);
     button.disabled = true;
-  })
-}
+  });
+};
 
 // enable bet coin buttons
 const disableBetCoinButtons = () => {
   betCoinButton.forEach((button) => {
     button.removeEventListener("click", handleBetCoinClick);
     button.disabled = true;
-  })
-}
+  });
+};
 
 const displayRoundResult = (amount, win) => {
   setTimeout(() => {
@@ -582,21 +647,22 @@ const displayRoundResult = (amount, win) => {
     }
   }, 1000);
 
-  const getNextRoundbutton = () => {
-    nextRoundButton.style.display = "flex";
-  };
+const getNextRoundbutton = () => {
+  nextRoundButton.style.display = "flex";
+};
 
-  if (game.player.bank === 0) {
-    closeResultMessage.addEventListener("click", () => {
-      roundResult.close();
-    });
-
+const updateNextRoundButton = () => {
+  if (game.player.bank > 0) {
+    getNextRoundbutton();
   } else {
-    closeResultMessage.addEventListener("click", () => {
-      roundResult.close();
-      getNextRoundbutton();
-    });
+    nextRoundButton.style.display = "none";
   }
+};
+
+closeResultMessage.addEventListener("click", () => {
+  roundResult.close();
+  updateNextRoundButton();
+});
 }
 
 // const displayLostMessage = () => {

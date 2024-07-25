@@ -418,11 +418,7 @@ const dealerTurn = () => {
       initialPlayerHand.length === 2 && calculateHandScore(playerHand, false);
     console.log(initialPlayerScore);
 
-    if (
-      game.dealer.score < game.player.score &&
-      game.dealer.score <= 21 &&
-      initialPlayerScore != 21
-    ) {
+    if (game.dealer.score < game.player.score && game.dealer.score <= 16 && initialPlayerScore != 21) {
       // if initial player score is 21, do not draw and player wins
       // need to adjust this to if game.dealer.score < game.player.score but not sure how so i put 17 first
       setTimeout(drawDealerCard, 1000); // draw card if conditions met!
